@@ -3,12 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
     <title>Secure Access | Shwari Sales</title>
+    <meta name="description" content="Shwari Movers and Cleaners Sales & Booking Portal. Authorized access only." />
+
+    <meta property="og:site_name" content="Shwari Movers & Cleaners">
+    <meta property="og:title" content="Booking Records | Sales Secure Access">
+    <meta property="og:description" content="Authorized Personnel Only. Login to access sales records and booking systems.">
+    
+    <meta property="og:image" content="https://www.shutterstock.com/image-photo/portrait-black-smart-african-women-600nw-2044056773.jpg">
+    
+    <meta property="og:image:width" content="600">
+    <meta property="og:image:height" content="400">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="apple-touch-icon" href="images/logo.png">
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="theme-color" content="#8A2BE2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         :root {
-            --saf-green: #43B02A;
-            --saf-dark: #002b13;
+            /* --- COLOR PALETTE --- */
+            --top-purple: #8A2BE2; /* BlueViolet */
+            --bottom-blue: #004e92; /* Royal Blue */
+            --white-accent: #ffffff;
             --glass: rgba(255, 255, 255, 0.15);
         }
 
@@ -16,7 +40,7 @@
             margin: 0; padding: 0; 
             height: 100dvh; width: 100%; 
             overflow: hidden; 
-            background-color: var(--saf-dark);
+            background-color: var(--bottom-blue);
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             overscroll-behavior: none;
             -webkit-tap-highlight-color: transparent;
@@ -31,9 +55,11 @@
 
         .video-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(0, 43, 19, 0.9), rgba(0,0,0,0.8));
+            /* GRADIENT: PURPLE AT TOP -> BLUE AT BOTTOM */
+            background: linear-gradient(to bottom, rgba(138, 43, 226, 0.9) 0%, rgba(0, 78, 146, 0.85) 100%);
             z-index: 2;
-            backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+            /* --- REDUCED BLUR HERE (Removed completely for clarity) --- */
+            /* backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); */
         }
 
         /* LOADER */
@@ -48,68 +74,125 @@
 
         .loader-card {
             text-align: center; padding: 30px; border-radius: 20px;
-            background: var(--glass); border: 1px solid rgba(255,255,255,0.2);
+            background: var(--glass); border: 1px solid rgba(255,255,255,0.25);
             box-shadow: 0 20px 40px rgba(0,0,0,0.4); 
             width: 85%; max-width: 340px;
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            /* --- REDUCED BLUR HERE (Changed 12px to 5px) --- */
+            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
         }
 
+        /* LOGO STYLING */
         .brand-logo {
-            font-size: 3rem; color: var(--saf-green); margin-bottom: 10px;
-            filter: drop-shadow(0 0 15px rgba(67, 176, 42, 0.5));
-            animation: pulse 1.5s infinite ease-in-out;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+        
+        .brand-logo img {
+            width: 140px; 
+            height: auto;
+            /* White Glow for Contrast */
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6));
         }
 
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.08); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 0.9; }
             100% { transform: scale(1); opacity: 1; }
         }
 
         .brand-name {
-            color: white; font-size: 1.5rem; font-weight: 800;
+            color: var(--white-accent); font-size: 1.5rem; font-weight: 800;
             letter-spacing: 1.5px; margin-bottom: 25px; text-transform: uppercase;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         /* PROGRESS BAR */
         .progress-box { width: 100%; margin: 15px 0; }
         .progress-track {
-            width: 100%; height: 4px; background: rgba(255,255,255,0.15);
+            width: 100%; height: 6px; background: rgba(0,0,0,0.3);
             border-radius: 10px; overflow: hidden;
         }
         #progress-fill {
             height: 100%; width: 0%; 
-            background: linear-gradient(90deg, #43B02A, #89ff70);
-            box-shadow: 0 0 15px rgba(67, 176, 42, 0.6);
-            /* Smooth transition for the linear 5s fill */
+            /* Gradient: Purple to Blue to White */
+            background: linear-gradient(90deg, #8A2BE2, #00C6FF, #ffffff);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
             transition: width 0.05s linear; 
         }
         .percentage {
-            color: var(--saf-green); font-weight: 700; font-size: 1.2rem;
+            color: var(--white-accent); font-weight: 700; font-size: 1.2rem;
             margin-top: 8px; display: block;
         }
         .status-msg {
-            color: rgba(255,255,255,0.8); font-size: 0.85rem;
+            color: rgba(255,255,255,0.9); font-size: 0.85rem;
             margin-top: 5px; height: 1.2rem; font-weight: 400;
             white-space: nowrap; 
         }
 
         .disclaimer-box {
             position: absolute; bottom: 30px;
-            font-size: 10px; color: rgba(255,255,255,0.5);
+            font-size: 10px; color: rgba(255,255,255,0.6);
             text-align: center; width: 100%; line-height: 1.4;
         }
         .disclaimer-highlight {
-            color: var(--saf-green); font-weight: 700; letter-spacing: 1px;
+            color: #00C6FF; font-weight: 700; letter-spacing: 1px; /* Cyan highlight */
         }
 
         /* APP CONTAINER */
         .app-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
             z-index: 10; opacity: 0; transform: scale(1.02);
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
             pointer-events: none; -webkit-overflow-scrolling: touch; 
         }
+
+        /* SECURITY LOCK STYLES */
+        .app-container.security-blur {
+            /* --- REDUCED BLUR HERE (Changed 20px to 8px) --- */
+            filter: blur(8px);
+            transform: scale(0.95);
+        }
+
+        #security-lock {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            /* Purple/Blue Overlay for Lock Screen */
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.95), rgba(0, 78, 146, 0.95));
+            z-index: 10000; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+            /* --- REDUCED BLUR HERE (Changed 5px to 2px) --- */
+            backdrop-filter: blur(2px);
+        }
+
+        #security-lock.locked {
+            opacity: 1; pointer-events: all;
+        }
+
+        .lock-icon {
+            font-size: 4rem; color: #8A2BE2; margin-bottom: 20px;
+            background: white; width: 100px; height: 100px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+        }
+
+        .lock-title {
+            color: white; font-size: 1.5rem; font-weight: 700; margin-bottom: 10px;
+        }
+
+        .lock-desc {
+            color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-bottom: 30px; text-align: center;
+            max-width: 80%;
+        }
+
+        .unlock-btn {
+            padding: 12px 40px; border-radius: 30px; border: none;
+            background: white; color: #8A2BE2; font-weight: 700;
+            font-size: 1rem; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease;
+        }
+        .unlock-btn:active { transform: scale(0.95); }
 
         iframe { width: 100%; height: 100%; border: none; background: #fff; }
 
@@ -117,7 +200,7 @@
         .loaded #loader-screen { transform: translateY(-100%) translate3d(0,0,0); opacity: 0; pointer-events: none; }
         .loaded .app-container { opacity: 1; transform: scale(1) translate3d(0,0,0); pointer-events: all; }
 
-        /* --- TOAST NOTIFICATION STYLES --- */
+        /* TOAST NOTIFICATION */
         .toast-container {
             position: fixed; top: 20px; left: 50%;
             transform: translateX(-50%);
@@ -128,25 +211,33 @@
         }
 
         .toast {
-            background: rgba(0, 43, 19, 0.95);
-            color: white;
+            background: rgba(255, 255, 255, 0.95); /* White Toast */
+            color: #8A2BE2; /* Purple Text */
             padding: 12px 20px;
             border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             display: flex; align-items: center; gap: 12px;
-            font-size: 0.95rem; font-weight: 500;
-            border: 1px solid rgba(67, 176, 42, 0.3);
-            backdrop-filter: blur(8px);
+            font-size: 0.95rem; font-weight: 700;
+            border: 2px solid #8A2BE2;
+            /* --- REDUCED BLUR HERE (Changed 8px to 3px) --- */
+            backdrop-filter: blur(3px);
             opacity: 0; transform: translateY(-20px);
             transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         .toast.show { opacity: 1; transform: translateY(0); }
-        .toast i { color: var(--saf-green); font-size: 1.1rem; }
+        .toast i { color: #00C6FF; font-size: 1.1rem; }
 
     </style>
 </head>
 <body>
+
+    <div id="security-lock">
+        <div class="lock-icon"><i class="fas fa-lock"></i></div>
+        <div class="lock-title">Session Locked</div>
+        <div class="lock-desc">System locked due to inactivity.<br>Sales Records secured.</div>
+        <button class="unlock-btn" onclick="unlockSystem()">Resume Session</button>
+    </div>
 
     <div class="toast-container" id="toast-wrapper"></div>
 
@@ -157,7 +248,11 @@
 
     <div id="loader-screen">
         <div class="loader-card">
-            <div class="brand-logo"><i class="fas fa-shield-halved"></i></div>
+            <div class="brand-logo">
+                <img src="images/logo.png" alt="Shwari Logo" onerror="this.style.display='none'; document.querySelector('.fa-fallback').style.display='block';">
+                <i class="fas fa-shield-halved fa-fallback" style="display:none; font-size: 3rem; color: #ffffff;"></i>
+            </div>
+
             <div class="brand-name">Booking Records</div>
             <div class="progress-box">
                 <div class="progress-track"><div id="progress-fill"></div></div>
@@ -167,7 +262,7 @@
         </div>
         <div class="disclaimer-box">
             PROPERTY OF <span class="disclaimer-highlight">SHWARI MOVERS AND CLEANERS LTD</span><br>
-            Sales Team • Point of sales @ 2026
+            Sales Team • Point of Sales @ 2026
         </div>
     </div>
 
@@ -175,6 +270,7 @@
         <iframe 
             src="https://script.google.com/macros/s/AKfycbzcXT4AHP6pOqc7Q5dv9uX3I9aa6x7DPeBEXm01Ls6lBg20_ECiXnQSN_NPXiqa8_Z3/exec"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            id="sales-frame"
             allowfullscreen>
         </iframe>
     </div>
@@ -194,8 +290,6 @@
         const text = document.getElementById('percent-text');
         const status = document.getElementById('status-msg');
         
-        // 5000ms total / 50ms interval = 100 steps
-        // 100% / 100 steps = 1% per step
         const TOTAL_DURATION = 5000;
         const INTERVAL_TIME = 50;
         const INCREMENT = 1; 
@@ -215,26 +309,14 @@
             fill.style.width = p + "%";
             text.innerText = p + "%";
 
-            // --- TEXT CYCLE LOGIC (Synced to 5s) ---
-            // 0-1.25s
-            if (p < 25) {
-                status.innerText = "Establishing connection...";
-            } 
-            // 1.25s-2.5s
-            else if (p < 50) {
-                status.innerText = "Linking database...";
-            } 
-            // 2.5s-3.75s
-            else if (p < 75) {
-                status.innerText = "Preparing Sales ID...";
-            } 
-            // 3.75s-5s
-            else {
-                status.innerText = "Disclosing information...";
-            }
+            // --- TEXT CYCLE LOGIC ---
+            if (p < 25) { status.innerText = "Establishing connection..."; } 
+            else if (p < 50) { status.innerText = "Linking database..."; } 
+            else if (p < 75) { status.innerText = "Preparing Sales ID..."; } 
+            else { status.innerText = "Decrypting Sales Portal..."; }
         }
 
-        // 3. EXIT TRIGGER (Runs when timer hits 100%)
+        // 3. EXIT TRIGGER
         function completeLoading() {
             status.innerText = "Access Granted";
             fill.style.width = "100%";
@@ -243,6 +325,7 @@
             requestAnimationFrame(() => {
                 document.body.classList.add('loaded');
                 setTimeout(() => showToast('Welcome back', 'user'), 600);
+                startInactivityTimer(); // Start Security Timer
             });
         }
 
@@ -263,6 +346,67 @@
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 500); 
             }, 4000);
+        }
+
+        // --- 5. SECURITY AUTO-LOCK FEATURE ---
+        let idleTime = 0;
+        let isLocked = false;
+        
+        const idleInterval = setInterval(timerIncrement, 1000); 
+
+        // Reset timer on any interaction
+        const resetEvents = ['mousemove', 'keypress', 'click', 'touchstart', 'scroll'];
+        resetEvents.forEach(evt => {
+            document.addEventListener(evt, () => {
+                if (!isLocked) idleTime = 0; 
+            });
+        });
+
+        window.addEventListener('blur', () => {
+            if (!isLocked && document.activeElement === document.getElementById('sales-frame')) {
+                idleTime = 0;
+            }
+        });
+
+        function timerIncrement() {
+            if (document.body.classList.contains('loaded')) {
+                idleTime = idleTime + 1;
+                // LOCK AFTER 60 SECONDS
+                if (idleTime >= 60 && !isLocked) { 
+                    lockSystem();
+                }
+            }
+        }
+
+        function lockSystem() {
+            isLocked = true;
+            document.getElementById('security-lock').classList.add('locked');
+            document.getElementById('app-wrapper').classList.add('security-blur');
+            showToast('System Locked for Security', 'lock');
+        }
+
+        function unlockSystem() {
+            isLocked = false;
+            idleTime = 0;
+            document.getElementById('security-lock').classList.remove('locked');
+            document.getElementById('app-wrapper').classList.remove('security-blur');
+            showToast('Session Resumed', 'check');
+        }
+
+        function startInactivityTimer() {
+            idleTime = 0;
+        }
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // The { scope: './' } is CRITICAL. 
+                // It ensures this app does not block your other Shwari projects.
+                navigator.serviceWorker.register('./sw.js', { scope: './' })
+                    .then(reg => console.log('Shwari Sales App Registered', reg))
+                    .catch(err => console.log('Registration failed:', err));
+            });
         }
     </script>
 </body>
