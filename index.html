@@ -12,6 +12,7 @@
     <meta property="og:description" content="Authorized Personnel Only. Login to access sales records and booking systems.">
     
     <meta property="og:image" content="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop">
+    
     <meta property="og:image:width" content="600">
     <meta property="og:image:height" content="400">
     <meta property="og:type" content="website">
@@ -20,7 +21,7 @@
     <link rel="apple-touch-icon" href="images/logo.png">
     <link rel="manifest" href="manifest.json">
 
-    <meta name="theme-color" content="#004e92">
+    <meta name="theme-color" content="#8A2BE2">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -28,21 +29,21 @@
     
     <style>
         :root {
-            /* --- MIXED COLOR PALETTE --- */
-            --deep-blue: #004e92;
-            --royal-purple: #8A2BE2;
-            --hot-pink: #FF69B4;
-            --light-pink: #FFB6C1;
+            /* --- THE WELL-MIXED PALETTE --- */
+            --deep-purple: #4B0082;  /* Indigo */
+            --vibrant-purple: #9D00FF; /* Electric Purple */
+            --hot-pink: #FF1493;     /* Deep Pink */
+            --soft-pink: #FFB6C1;    /* Light Pink (for edges) */
             --white: #ffffff;
             
-            --glass: rgba(255, 255, 255, 0.15);
+            --glass: rgba(255, 255, 255, 0.10);
         }
 
         body, html { 
             margin: 0; padding: 0; 
             height: 100dvh; width: 100%; 
             overflow: hidden; 
-            background-color: var(--deep-blue);
+            background-color: var(--deep-purple);
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             overscroll-behavior: none;
             -webkit-tap-highlight-color: transparent;
@@ -57,10 +58,9 @@
 
         .video-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            /* ✅ WELL MIXED GRADIENT: BLUE -> PURPLE -> PINK */
-            background: linear-gradient(135deg, rgba(0, 78, 146, 0.9) 0%, rgba(138, 43, 226, 0.85) 50%, rgba(255, 105, 180, 0.75) 100%);
+            /* ✅ MIXED GRADIENT: Deep Purple (Top Left) -> Hot Pink (Bottom Right) */
+            background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(138, 43, 226, 0.85), rgba(255, 20, 147, 0.8));
             z-index: 2;
-            /* No blur for clarity */
         }
 
         /* LOADER */
@@ -77,13 +77,14 @@
             text-align: center; padding: 30px; border-radius: 20px;
             background: var(--glass); 
             
-            /* ✅ LIGHT PINK GLOWING BORDER */
-            border: 2px solid var(--light-pink);
-            box-shadow: 0 0 25px rgba(255, 182, 193, 0.3); 
+            /* ✅ PINK & WHITE EDGE MIX */
+            border: 2px solid var(--soft-pink);
+            border-bottom: 2px solid var(--white);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3); 
 
             width: 85%; max-width: 340px;
-            /* Reduced Blur for Sharpness */
-            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            /* Sharp/Reduced Blur */
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
         }
 
         /* LOGO STYLING */
@@ -96,7 +97,7 @@
             width: 140px; 
             height: auto;
             /* White Glow */
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
         }
 
         @keyframes pulse {
@@ -116,20 +117,21 @@
         .progress-track {
             width: 100%; height: 6px; background: rgba(0,0,0,0.3);
             border-radius: 10px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         #progress-fill {
             height: 100%; width: 0%; 
-            /* ✅ 3-COLOR MIX: BLUE -> PURPLE -> PINK */
-            background: linear-gradient(90deg, var(--deep-blue), var(--royal-purple), var(--hot-pink));
-            box-shadow: 0 0 15px var(--light-pink);
+            /* ✅ TRI-COLOR MIX: Purple -> Pink -> White */
+            background: linear-gradient(90deg, var(--vibrant-purple), var(--hot-pink), var(--white));
+            box-shadow: 0 0 15px var(--hot-pink);
             transition: width 0.05s linear; 
         }
         .percentage {
-            color: var(--light-pink); font-weight: 700; font-size: 1.2rem;
+            color: var(--soft-pink); font-weight: 700; font-size: 1.2rem;
             margin-top: 8px; display: block;
         }
         .status-msg {
-            color: rgba(255,255,255,0.95); font-size: 0.85rem;
+            color: rgba(255,255,255,0.9); font-size: 0.85rem;
             margin-top: 5px; height: 1.2rem; font-weight: 400;
             white-space: nowrap; 
         }
@@ -140,7 +142,7 @@
             text-align: center; width: 100%; line-height: 1.4;
         }
         .disclaimer-highlight {
-            color: var(--light-pink); font-weight: 700; letter-spacing: 1px;
+            color: var(--hot-pink); font-weight: 700; letter-spacing: 1px;
         }
 
         /* APP CONTAINER */
@@ -159,8 +161,8 @@
 
         #security-lock {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            /* Mixed Dark Overlay */
-            background: linear-gradient(135deg, rgba(0, 78, 146, 0.95), rgba(138, 43, 226, 0.95));
+            /* Gradient Overlay for Lock Screen */
+            background: linear-gradient(135deg, rgba(75, 0, 130, 0.98), rgba(255, 20, 147, 0.95));
             z-index: 10000; 
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none;
@@ -173,12 +175,12 @@
         }
 
         .lock-icon {
-            font-size: 4rem; color: var(--royal-purple); margin-bottom: 20px;
+            font-size: 4rem; color: var(--vibrant-purple); margin-bottom: 20px;
             background: white; width: 100px; height: 100px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            /* Pink Edge */
-            border: 2px solid var(--light-pink);
-            box-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
+            /* Pink Ring */
+            border: 3px solid var(--hot-pink);
+            box-shadow: 0 0 30px rgba(255, 182, 193, 0.5);
         }
 
         .lock-title {
@@ -192,9 +194,10 @@
 
         .unlock-btn {
             padding: 12px 40px; border-radius: 30px; border: none;
-            background: white; color: var(--deep-blue); font-weight: 700;
+            background: white; color: var(--vibrant-purple); font-weight: 700;
             font-size: 1rem; cursor: pointer;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid var(--soft-pink);
             transition: transform 0.2s ease;
         }
         .unlock-btn:active { transform: scale(0.95); }
@@ -216,16 +219,16 @@
         }
 
         .toast {
-            background: rgba(255, 255, 255, 0.95);
-            color: var(--deep-blue);
+            background: rgba(255, 255, 255, 0.95); /* White Toast */
+            color: var(--vibrant-purple); /* Purple Text */
             padding: 12px 20px;
             border-radius: 50px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             display: flex; align-items: center; gap: 12px;
             font-size: 0.95rem; font-weight: 700;
             
-            /* ✅ PINK BORDER FOR TOAST */
-            border: 2px solid var(--light-pink);
+            /* ✅ PINK BORDER */
+            border: 2px solid var(--soft-pink);
             
             backdrop-filter: blur(3px);
             opacity: 0; transform: translateY(-20px);
