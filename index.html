@@ -3,420 +3,512 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0d0d0d">
+    <meta name="description" content="Shwari Movers & Cleaners Secure Workspace">
+    <title>Shwari Workspace | Ultimate Secure Login</title>
     
-    <title>Secure Access | Shwari Sales</title>
-    <meta name="description" content="Shwari Movers and Cleaners Sales & Booking Portal. Authorized access only." />
-
-    <meta property="og:site_name" content="Shwari Movers & Cleaners">
-    <meta property="og:title" content="Booking Records | Sales Secure Access">
-    <meta property="og:description" content="Authorized Personnel Only. Login to access sales records and booking systems.">
+    <link rel="preload" as="image" href="https://www.shutterstock.com/image-photo/contemplating-business-black-woman-on-600nw-2466621877.jpg">
     
-    <meta property="og:image" content="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop">
-    
-    <meta property="og:image:width" content="600">
-    <meta property="og:image:height" content="400">
-    <meta property="og:type" content="website">
-
-    <link rel="icon" type="image/png" href="images/logo.png">
-    <link rel="apple-touch-icon" href="images/logo.png">
-    <link rel="manifest" href="manifest.json">
-
-    <meta name="theme-color" content="#8A2BE2">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <style>
+        /* -----------------------------------------------------------
+           1. CORE VARIABLES & RESET
+           ----------------------------------------------------------- */
         :root {
-            /* --- THE WELL-MIXED PALETTE --- */
-            --deep-purple: #4B0082;  /* Indigo */
-            --vibrant-purple: #9D00FF; /* Electric Purple */
-            --hot-pink: #FF1493;     /* Deep Pink */
-            --soft-pink: #FFB6C1;    /* Light Pink (for edges) */
-            --white: #ffffff;
+            /* Colors */
+            --bg-dark: #050505;
+            --brand-purple: #5D3FD3;
+            --brand-pink: #FF1493;
+            --brand-cyan: #00FFFF;
+            --text-main: #FFFFFF;
+            --text-muted: rgba(255, 255, 255, 0.6);
             
-            --glass: rgba(255, 255, 255, 0.10);
+            /* Glassmorphism */
+            --glass-surface: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-highlight: rgba(255, 255, 255, 0.2);
+            --blur-strength: 12px;
+            
+            /* Animation Curves */
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Spacing */
+            --space-sm: 10px;
+            --space-md: 20px;
+            --space-lg: 40px;
         }
 
-        body, html { 
-            margin: 0; padding: 0; 
-            height: 100dvh; width: 100%; 
-            overflow: hidden; 
-            background-color: var(--deep-purple);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overscroll-behavior: none;
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* BACKGROUND VIDEO */
-        #bg-video {
+        body {
+            /* Use dvh for mobile browsers to handle address bar resizing */
+            height: 100dvh; 
+            width: 100%;
+            overflow: hidden;
+            background: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            position: relative;
+        }
+
+        /* -----------------------------------------------------------
+           2. BACKGROUND LAYERS
+           ----------------------------------------------------------- */
+        .layer-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; z-index: 1; opacity: 0; transition: opacity 0.5s ease;
-        }
-        #bg-video.video-ready { opacity: 1; }
-
-        .video-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            /* ✅ MIXED GRADIENT: Deep Purple (Top Left) -> Hot Pink (Bottom Right) */
-            background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(138, 43, 226, 0.85), rgba(255, 20, 147, 0.8));
-            z-index: 2;
-        }
-
-        /* LOADER */
-        #loader-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            z-index: 999;
-            transform: translate3d(0,0,0);
-            transition: transform 0.25s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.2s ease;
-            will-change: transform, opacity;
-        }
-
-        .loader-card {
-            text-align: center; padding: 30px; border-radius: 20px;
-            background: var(--glass); 
-            
-            /* ✅ PINK & WHITE EDGE MIX */
-            border: 2px solid var(--soft-pink);
-            border-bottom: 2px solid var(--white);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3); 
-
-            width: 85%; max-width: 340px;
-            /* Sharp/Reduced Blur */
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-        }
-
-        /* LOGO STYLING */
-        .brand-logo {
-            margin-bottom: 15px;
-            animation: pulse 2s infinite ease-in-out;
+            background-image: url('https://www.shutterstock.com/image-photo/contemplating-business-black-woman-on-600nw-2466621877.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+            opacity: 0;
+            transform: scale(1.05);
+            transition: opacity 1.5s ease, transform 30s linear;
         }
         
-        .brand-logo img {
-            width: 140px; 
-            height: auto;
-            /* White Glow */
-            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
+        .layer-bg.loaded {
+            opacity: 1;
+            transform: scale(1);
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.9; }
-            100% { transform: scale(1); opacity: 1; }
+        .layer-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(110deg, 
+                rgba(5, 5, 5, 0.95) 0%, 
+                rgba(5, 5, 5, 0.7) 40%, 
+                rgba(75, 0, 130, 0.3) 100%);
+            z-index: 1;
         }
 
-        .brand-name {
-            color: var(--white); font-size: 1.5rem; font-weight: 800;
-            letter-spacing: 1.5px; margin-bottom: 25px; text-transform: uppercase;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        #particle-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 2;
+            pointer-events: none;
         }
 
-        /* PROGRESS BAR */
-        .progress-box { width: 100%; margin: 15px 0; }
-        .progress-track {
-            width: 100%; height: 6px; background: rgba(0,0,0,0.3);
-            border-radius: 10px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        #progress-fill {
-            height: 100%; width: 0%; 
-            /* ✅ TRI-COLOR MIX: Purple -> Pink -> White */
-            background: linear-gradient(90deg, var(--vibrant-purple), var(--hot-pink), var(--white));
-            box-shadow: 0 0 15px var(--hot-pink);
-            transition: width 0.05s linear; 
-        }
-        .percentage {
-            color: var(--soft-pink); font-weight: 700; font-size: 1.2rem;
-            margin-top: 8px; display: block;
-        }
-        .status-msg {
-            color: rgba(255,255,255,0.9); font-size: 0.85rem;
-            margin-top: 5px; height: 1.2rem; font-weight: 400;
-            white-space: nowrap; 
+        /* -----------------------------------------------------------
+           3. UI CONTAINER & TYPOGRAPHY
+           ----------------------------------------------------------- */
+        .ui-wrapper {
+            position: relative; z-index: 10;
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: space-between;
+            padding: clamp(20px, 5vw, 60px);
+            /* Ensure content respects iPhone notch/safe areas */
+            padding-top: max(20px, env(safe-area-inset-top));
+            padding-bottom: max(20px, env(safe-area-inset-bottom));
+            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+            overflow-y: auto; /* Safety scroll for very small vertical screens */
         }
 
-        .disclaimer-box {
-            position: absolute; bottom: 30px;
-            font-size: 10px; color: rgba(255,255,255,0.7);
-            text-align: center; width: 100%; line-height: 1.4;
-        }
-        .disclaimer-highlight {
-            color: var(--hot-pink); font-weight: 700; letter-spacing: 1px;
-        }
-
-        /* APP CONTAINER */
-        .app-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
-            z-index: 10; opacity: 0; transform: scale(1.02);
-            transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
-            pointer-events: none; -webkit-overflow-scrolling: touch; 
-        }
-
-        /* SECURITY LOCK STYLES */
-        .app-container.security-blur {
-            filter: blur(5px);
-            transform: scale(0.95);
-        }
-
-        #security-lock {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            /* Gradient Overlay for Lock Screen */
-            background: linear-gradient(135deg, rgba(75, 0, 130, 0.98), rgba(255, 20, 147, 0.95));
-            z-index: 10000; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease;
-            backdrop-filter: blur(2px);
-        }
-
-        #security-lock.locked {
-            opacity: 1; pointer-events: all;
-        }
-
-        .lock-icon {
-            font-size: 4rem; color: var(--vibrant-purple); margin-bottom: 20px;
-            background: white; width: 100px; height: 100px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            /* Pink Ring */
-            border: 3px solid var(--hot-pink);
-            box-shadow: 0 0 30px rgba(255, 182, 193, 0.5);
-        }
-
-        .lock-title {
-            color: white; font-size: 1.5rem; font-weight: 700; margin-bottom: 10px;
-        }
-
-        .lock-desc {
-            color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-bottom: 30px; text-align: center;
-            max-width: 80%;
-        }
-
-        .unlock-btn {
-            padding: 12px 40px; border-radius: 30px; border: none;
-            background: white; color: var(--vibrant-purple); font-weight: 700;
-            font-size: 1rem; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border: 1px solid var(--soft-pink);
-            transition: transform 0.2s ease;
-        }
-        .unlock-btn:active { transform: scale(0.95); }
-
-        iframe { width: 100%; height: 100%; border: none; background: #fff; }
-
-        /* INSTANT EXIT STATE */
-        .loaded #loader-screen { transform: translateY(-100%) translate3d(0,0,0); opacity: 0; pointer-events: none; }
-        .loaded .app-container { opacity: 1; transform: scale(1) translate3d(0,0,0); pointer-events: all; }
-
-        /* TOAST NOTIFICATION */
-        .toast-container {
-            position: fixed; top: 20px; left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999; 
-            display: flex; flex-direction: column; gap: 10px;
-            pointer-events: none; 
-            width: 90%; max-width: 350px;
-        }
-
-        .toast {
-            background: rgba(255, 255, 255, 0.95); /* White Toast */
-            color: var(--vibrant-purple); /* Purple Text */
-            padding: 12px 20px;
-            border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            display: flex; align-items: center; gap: 12px;
-            font-size: 0.95rem; font-weight: 700;
-            
-            /* ✅ PINK BORDER */
-            border: 2px solid var(--soft-pink);
-            
-            backdrop-filter: blur(3px);
+        /* Navbar */
+        .nav-header {
+            display: flex; justify-content: space-between; align-items: center;
             opacity: 0; transform: translateY(-20px);
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            animation: slideDown 1s var(--ease-out-expo) forwards 0.5s;
+            flex-shrink: 0; /* Prevent shrinking */
         }
 
-        .toast.show { opacity: 1; transform: translateY(0); }
-        .toast i { color: var(--hot-pink); font-size: 1.1rem; }
+        .brand-badge {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 20px;
+            background: var(--glass-surface);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            backdrop-filter: blur(var(--blur-strength));
+            -webkit-backdrop-filter: blur(var(--blur-strength));
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .brand-badge:hover { transform: translateY(-2px); background: rgba(255,255,255,0.08); }
+
+        .logo-icon { color: var(--brand-pink); font-size: 1.2rem; }
+        .logo-text { font-weight: 700; font-size: 0.9rem; letter-spacing: 0.5px; }
+
+        .header-controls { display: flex; gap: 15px; }
+        
+        .icon-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-surface);
+            color: var(--text-main);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .icon-btn:hover { background: var(--brand-purple); border-color: var(--brand-purple); }
+
+        /* Main Content */
+        .main-content {
+            max-width: 700px;
+            margin-top: auto;
+            margin-bottom: auto;
+            width: 100%;
+        }
+
+        .status-tag {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem; color: var(--brand-cyan);
+            background: rgba(0, 255, 255, 0.05);
+            padding: 6px 12px; border-radius: 4px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            margin-bottom: 25px;
+            opacity: 0; animation: fadeUp 0.8s var(--ease-out-expo) forwards 0.7s;
+        }
+        .blink { animation: blink 1.5s infinite; }
+        @keyframes blink { 50% { opacity: 0.3; } }
+
+        h1 {
+            /* Responsive Font Scaling */
+            font-size: clamp(2.5rem, 8vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #fff 0%, #a5a5a5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0; animation: fadeUp 1s var(--ease-out-expo) forwards 0.9s;
+        }
+
+        .description {
+            font-size: clamp(1rem, 1.5vw, 1.25rem);
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 50px;
+            max-width: 550px;
+            border-left: 2px solid var(--glass-border);
+            padding-left: 20px;
+            opacity: 0; animation: fadeUp 1s var(--ease-out-expo) forwards 1.1s;
+        }
+
+        /* -----------------------------------------------------------
+           4. INTERACTIVE BUTTON
+           ----------------------------------------------------------- */
+        .cta-container {
+            display: flex; flex-wrap: wrap; gap: 20px; align-items: center;
+            opacity: 0; animation: fadeUp 1s var(--ease-out-expo) forwards 1.3s;
+        }
+
+        .primary-btn {
+            position: relative;
+            padding: 18px 48px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-highlight);
+            border-radius: 100px;
+            color: white;
+            font-size: 1rem; font-weight: 600;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex; align-items: center; gap: 15px;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+            white-space: nowrap;
+        }
+
+        .primary-btn::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, var(--brand-purple), var(--brand-pink));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .primary-btn:hover { transform: translateY(-3px) scale(1.02); border-color: transparent; }
+        .primary-btn:hover::before { opacity: 1; }
+        
+        .btn-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; }
+
+        /* -----------------------------------------------------------
+           5. FOOTER INFO
+           ----------------------------------------------------------- */
+        .footer-info {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            opacity: 0; animation: fadeIn 1s ease forwards 1.5s;
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        .weather-widget { text-align: left; }
+        .time-display { font-size: 3rem; font-weight: 200; line-height: 1; letter-spacing: -1px; }
+        .date-display { font-size: 0.9rem; color: var(--brand-pink); font-weight: 600; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .system-id {
+            text-align: right;
+            font-size: 0.7rem; color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* -----------------------------------------------------------
+           6. RESPONSIVE MEDIA QUERIES (SCREEN VIEWS)
+           ----------------------------------------------------------- */
+        
+        /* Mobile Portrait */
+        @media (max-width: 768px) {
+            .nav-header { flex-direction: row-reverse; }
+            .brand-badge { display: none; } /* Hide large logo on phone */
+            .logo-text { display: none; }
+            
+            .main-content { margin-top: 40px; margin-bottom: 40px; }
+            
+            h1 { font-size: 2.8rem; margin-bottom: 20px; }
+            .description { font-size: 0.95rem; margin-bottom: 30px; padding-left: 15px; }
+            
+            .cta-container { width: 100%; }
+            .primary-btn { width: 100%; justify-content: center; padding: 16px; }
+            
+            .footer-info { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .system-id { text-align: left; display: none; } /* Hide ID on small screens to save space */
+            .time-display { font-size: 2.5rem; }
+        }
+
+        /* Small Mobile / iPhone SE */
+        @media (max-width: 380px) {
+            h1 { font-size: 2.2rem; }
+            .ui-wrapper { padding: 15px; }
+        }
+
+        /* Mobile Landscape */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .nav-header { display: none; } /* Hide header to save vertical space */
+            .main-content { margin: 10px 0; display: flex; align-items: center; gap: 20px; }
+            h1 { font-size: 2rem; margin-bottom: 10px; }
+            .description { display: none; } /* Hide desc on short screens */
+            .footer-info { display: none; }
+        }
+
+        /* -----------------------------------------------------------
+           7. IFRAME & MODALS
+           ----------------------------------------------------------- */
+        .app-view {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+            background: #fff; z-index: 999;
+            transform: translateY(100%); transition: transform 0.8s var(--ease-out-expo);
+            padding-top: env(safe-area-inset-top); /* Handle Notch */
+        }
+        .app-view.active { transform: translateY(0); }
+        iframe { width: 100%; height: 100%; border: none; display: block; }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
+            z-index: 500; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+        .glass-modal {
+            background: #1a1a1a; border: 1px solid var(--glass-border);
+            padding: 40px; border-radius: 20px; width: 90%; max-width: 400px;
+            text-align: center; transform: scale(0.9); transition: transform 0.3s;
+        }
+        .modal-overlay.open .glass-modal { transform: scale(1); }
+
+        /* -----------------------------------------------------------
+           8. ANIMATION KEYFRAMES
+           ----------------------------------------------------------- */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     </style>
 </head>
 <body>
 
-    <div id="security-lock">
-        <div class="lock-icon"><i class="fas fa-lock"></i></div>
-        <div class="lock-title">Session Locked</div>
-        <div class="lock-desc">System locked due to inactivity.<br>Sales Records secured.</div>
-        <button class="unlock-btn" onclick="unlockSystem()">Resume Session</button>
-    </div>
+    <div class="layer-bg" id="bg-layer"></div>
+    <div class="layer-overlay"></div>
+    <canvas id="particle-canvas"></canvas>
 
-    <div class="toast-container" id="toast-wrapper"></div>
+    <div class="ui-wrapper" id="ui-main">
+        
+        <header class="nav-header">
+            <div class="brand-badge" onclick="window.location.reload()">
+                <i class="fas fa-cube logo-icon"></i>
+                <span class="logo-text">SHWARI WORKSPACE</span>
+            </div>
+            
+            <div class="header-controls">
+                </div>
+        </header>
 
-    <video autoplay muted loop playsinline preload="auto" id="bg-video">
-        <source src="https://v.ftcdn.net/02/21/06/61/700_F_221066170_ktt9WcxAOvbTc3iSEBGJjGY0NwfK3D8d_ST.mp4" type="video/mp4">
-    </video>
-    <div class="video-overlay"></div>
+        <main class="main-content">
+            <div>
+                
+            <h1>Sales Vision.<br>Local Action.</h1>
+            
+            <p class="description">
+                Welcome back, <strong>to Sale Hub</strong><br>
+                Access the centralized logistics, sales tracking, and financial operations dashboard for Shwari Movers & Cleaners.
+            </p>
 
-    <div id="loader-screen">
-        <div class="loader-card">
-            <div class="brand-logo">
-                <img src="images/logo.png" alt="Shwari Logo" onerror="this.style.display='none'; document.querySelector('.fa-fallback').style.display='block';">
-                <i class="fas fa-shield-halved fa-fallback" style="display:none; font-size: 3rem; color: #ffffff;"></i>
+            <div class="cta-container">
+                <button class="primary-btn" onclick="initiateLogin()">
+                    <span class="btn-content">
+                        <span>Access Dashboard</span>
+    
+                    </span>
+                </button>
+            </div>
+        </main>
+
+        <footer class="footer-info">
+            <div class="weather-widget">
+                <div class="time-display" id="clock">00:00</div>
+                <div class="date-display" id="date">JAN 01</div>
+                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 5px;">
+                    <i class="fas fa-map-marker-alt" style="color:var(--brand-pink)"></i> Nairobi, KE • 24°C Cloudy
+                </div>
             </div>
 
-            <div class="brand-name">Booking Records</div>
-            <div class="progress-box">
-                <div class="progress-track"><div id="progress-fill"></div></div>
-                <span class="percentage" id="percent-text">0%</span>
-                <div class="status-msg" id="status-msg">Initializing...</div>
+            <div class="system-id">
+                ID: SHW-8821<br>
+                SECURE CONN
             </div>
-        </div>
-        <div class="disclaimer-box">
-            PROPERTY OF <span class="disclaimer-highlight">SHWARI MOVERS AND CLEANERS LTD</span><br>
-            Sales Team • Point of Sales @ 2026
+        </footer>
+    </div>
+
+    <div class="modal-overlay" id="settings-modal" onclick="closeModals(event)">
+        <div class="glass-modal">
+            <h2 style="margin-bottom: 20px;">System Preferences</h2>
+            <p style="color: #888; margin-bottom: 30px;">Display settings are managed centrally by admin.</p>
+            <button class="primary-btn" style="width:100%; justify-content:center;" onclick="toggleModal('settings-modal')">Close</button>
         </div>
     </div>
 
-    <div class="app-container" id="app-wrapper">
-        <iframe 
-            src="https://script.google.com/macros/s/AKfycbzoJCx8-iRI-S93sxMjkr_n_ey7-2E_Mv0O_A9tslHGOMruuXotbEJtBZnK9z2_T15v/exec"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share"
-            id="sales-frame"
-            allowfullscreen>
-        </iframe>
+    <div class="app-view" id="app-layer">
+        <iframe id="app-frame" src="about:blank" allowfullscreen></iframe>
     </div>
 
     <script>
-        // 1. VIDEO
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('bg-video');
-            if(video) {
-                video.play().then(() => video.classList.add('video-ready')).catch(e => {});
-            }
-        });
-
-        // 2. TIMED LOADER (EXACTLY 5 SECONDS)
-        let progress = 0;
-        const fill = document.getElementById('progress-fill');
-        const text = document.getElementById('percent-text');
-        const status = document.getElementById('status-msg');
-        
-        const TOTAL_DURATION = 5000;
-        const INTERVAL_TIME = 50;
-        const INCREMENT = 1; 
-
-        const timer = setInterval(() => {
-            if (progress >= 100) {
-                clearInterval(timer);
-                completeLoading();
-            } else {
-                progress += INCREMENT;
-                updateUI(progress);
-            }
-        }, INTERVAL_TIME);
-
-        function updateUI(val) {
-            let p = Math.floor(val);
-            fill.style.width = p + "%";
-            text.innerText = p + "%";
-
-            // --- TEXT CYCLE LOGIC ---
-            if (p < 25) { status.innerText = "Establishing connection..."; } 
-            else if (p < 50) { status.innerText = "Linking database..."; } 
-            else if (p < 75) { status.innerText = "Preparing Sales ID..."; } 
-            else { status.innerText = "Decrypting Sales Portal..."; }
-        }
-
-        // 3. EXIT TRIGGER
-        function completeLoading() {
-            status.innerText = "Access Granted";
-            fill.style.width = "100%";
-            text.innerText = "100%";
-
-            requestAnimationFrame(() => {
-                document.body.classList.add('loaded');
-                setTimeout(() => showToast('Welcome back', 'user'), 600);
-                startInactivityTimer(); // Start Security Timer
-            });
-        }
-
-        // 4. TOAST FUNCTION
-        function showToast(message, iconName) {
-            const container = document.getElementById('toast-wrapper');
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = `<i class="fas fa-${iconName}-circle"></i> ${message}`;
+        // --- 1. INITIALIZATION & ASSET LOADING ---
+        window.addEventListener('load', () => {
+            document.getElementById('bg-layer').classList.add('loaded');
             
-            container.appendChild(toast);
+            // PERFORMANCE FIX: Load iframe IMMEDIATELY in the background
+            const url = "https://script.google.com/macros/s/AKfycbzoJCx8-iRI-S93sxMjkr_n_ey7-2E_Mv0O_A9tslHGOMruuXotbEJtBZnK9z2_T15v/exec";
+            document.getElementById('app-frame').src = url;
 
-            requestAnimationFrame(() => {
-                toast.classList.add('show');
-            });
+            // Start Particle System
+            initParticles();
+        });
 
+        // --- 2. CLOCK & DATE LOGIC ---
+        function updateTime() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            
+            document.getElementById('clock').innerText = `${h}:${m}`;
+            
+            const opts = { month: 'short', day: 'numeric', weekday: 'short' };
+            document.getElementById('date').innerText = now.toLocaleDateString('en-US', opts).toUpperCase();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // --- 3. LOGIN SEQUENCE ANIMATION (CLEAN APPLE-STYLE FADE) ---
+        function initiateLogin() {
+            const ui = document.getElementById('ui-main');
+            const app = document.getElementById('app-layer');
+            
+            // Step 1: Smooth Fade Out
+            ui.style.opacity = '0';
+            ui.style.transform = 'scale(0.98)';
+            
+            // Step 2: Slide In App
             setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 500); 
-            }, 4000);
+                app.classList.add('active');
+            }, 500);
         }
 
-        // --- 5. SECURITY AUTO-LOCK FEATURE ---
-        let idleTime = 0;
-        let isLocked = false;
-        
-        const idleInterval = setInterval(timerIncrement, 1000); 
-
-        // Reset timer on any interaction
-        const resetEvents = ['mousemove', 'keypress', 'click', 'touchstart', 'scroll'];
-        resetEvents.forEach(evt => {
-            document.addEventListener(evt, () => {
-                if (!isLocked) idleTime = 0; 
-            });
-        });
-
-        window.addEventListener('blur', () => {
-            if (!isLocked && document.activeElement === document.getElementById('sales-frame')) {
-                idleTime = 0;
+        // --- 4. MODAL LOGIC ---
+        function toggleModal(id) {
+            const el = document.getElementById(id);
+            if(el.classList.contains('open')) el.classList.remove('open');
+            else el.classList.add('open');
+        }
+        function closeModals(e) {
+            if(e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('open');
             }
-        });
+        }
 
-        function timerIncrement() {
-            if (document.body.classList.contains('loaded')) {
-                idleTime = idleTime + 1;
-                // LOCK AFTER 5 MINUTES (300 SECONDS)
-                if (idleTime >= 300 && !isLocked) { 
-                    lockSystem();
+        // --- 5. PARTICLE SYSTEM (CANVAS) ---
+        function initParticles() {
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            
+            const resize = () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            };
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.size = Math.random() * 2;
+                    this.alpha = Math.random() * 0.5 + 0.1;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                    ctx.fill();
                 }
             }
-        }
 
-        function lockSystem() {
-            isLocked = true;
-            document.getElementById('security-lock').classList.add('locked');
-            document.getElementById('app-wrapper').classList.add('security-blur');
-            showToast('System Locked for Security', 'lock');
-        }
+            // Create 60 particles
+            for (let i = 0; i < 60; i++) particles.push(new Particle());
 
-        function unlockSystem() {
-            isLocked = false;
-            idleTime = 0;
-            document.getElementById('security-lock').classList.remove('locked');
-            document.getElementById('app-wrapper').classList.remove('security-blur');
-            showToast('Session Resumed', 'check');
-        }
-
-        function startInactivityTimer() {
-            idleTime = 0;
-        }
-    </script>
-
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                // The { scope: './' } is CRITICAL. 
-                // It ensures this app does not block your other Shwari projects.
-                navigator.serviceWorker.register('./sw.js', { scope: './' })
-                    .then(reg => console.log('Shwari Sales App Registered', reg))
-                    .catch(err => console.log('Registration failed:', err));
-            });
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach((p, index) => {
+                    p.update();
+                    p.draw();
+                    
+                    // Draw connections if close
+                    for (let j = index + 1; j < particles.length; j++) {
+                        const p2 = particles[j];
+                        const dx = p.x - p2.x;
+                        const dy = p.y - p2.y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        
+                        if (dist < 100) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - dist/1000})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.stroke();
+                        }
+                    }
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
         }
     </script>
 </body>
