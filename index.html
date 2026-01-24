@@ -3,513 +3,364 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#0d0d0d">
-    <meta name="description" content="Shwari Movers & Cleaners Secure Workspace">
-    <title>Shwari Workspace | Ultimate Secure Login</title>
+    <meta name="theme-color" content="#000000">
+    <title>Shwari Sales | Secure Access</title>
+
+    <link rel="preload" as="image" href="https://www.austintec.com/wp-content/uploads/2023/10/jobs-for-women-in-construction.jpg">
+    <link rel="preconnect" href="https://script.google.com">
     
-    <link rel="preload" as="image" href="https://www.shutterstock.com/image-photo/contemplating-business-black-woman-on-600nw-2466621877.jpg">
-    
+    <link rel="icon" type="image/png" href="images/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <style>
-        /* -----------------------------------------------------------
-           1. CORE VARIABLES & RESET
-           ----------------------------------------------------------- */
         :root {
-            /* Colors */
-            --bg-dark: #050505;
-            --brand-purple: #5D3FD3;
-            --brand-pink: #FF1493;
-            --brand-cyan: #00FFFF;
-            --text-main: #FFFFFF;
-            --text-muted: rgba(255, 255, 255, 0.6);
-            
-            /* Glassmorphism */
-            --glass-surface: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-highlight: rgba(255, 255, 255, 0.2);
-            --blur-strength: 12px;
-            
-            /* Animation Curves */
-            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
-            --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-            
-            /* Spacing */
-            --space-sm: 10px;
-            --space-md: 20px;
-            --space-lg: 40px;
+            --brand-green: #43B02A;
         }
 
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        body, html {
+            margin: 0; padding: 0;
+            height: 100dvh; width: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Inter', sans-serif;
+            color: white;
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
-            /* Use dvh for mobile browsers to handle address bar resizing */
-            height: 100dvh; 
-            width: 100%;
-            overflow: hidden;
-            background: var(--bg-dark);
-            font-family: 'Inter', sans-serif;
-            color: var(--text-main);
-            position: relative;
-        }
-
-        /* -----------------------------------------------------------
-           2. BACKGROUND LAYERS
-           ----------------------------------------------------------- */
-        .layer-bg {
+        /* --- BACKGROUND --- */
+        .bg-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://www.shutterstock.com/image-photo/contemplating-business-black-woman-on-600nw-2466621877.jpg');
+            background-image: url('https://img.freepik.com/premium-photo/portrait-businessman-sitting-office-desk_1048944-19832219.jpg?semt=ais_hybrid&w=740&q=80');
             background-size: cover;
             background-position: center;
             z-index: 0;
-            opacity: 0;
-            transform: scale(1.05);
-            transition: opacity 1.5s ease, transform 30s linear;
-        }
-        
-        .layer-bg.loaded {
-            opacity: 1;
-            transform: scale(1);
+            filter: brightness(0.85) contrast(1.1);
+            will-change: transform;
+            animation: breathe 30s ease-in-out infinite alternate;
         }
 
-        .layer-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(110deg, 
-                rgba(5, 5, 5, 0.95) 0%, 
-                rgba(5, 5, 5, 0.7) 40%, 
-                rgba(75, 0, 130, 0.3) 100%);
+        @keyframes breathe {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
+        }
+
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.1) 100%);
             z-index: 1;
-        }
-
-        #particle-canvas {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 2;
             pointer-events: none;
         }
 
-        /* -----------------------------------------------------------
-           3. UI CONTAINER & TYPOGRAPHY
-           ----------------------------------------------------------- */
-        .ui-wrapper {
+        /* --- UI CONTAINER --- */
+        .ui-container {
             position: relative; z-index: 10;
             width: 100%; height: 100%;
-            display: flex; flex-direction: column; justify-content: space-between;
-            padding: clamp(20px, 5vw, 60px);
-            /* Ensure content respects iPhone notch/safe areas */
-            padding-top: max(20px, env(safe-area-inset-top));
-            padding-bottom: max(20px, env(safe-area-inset-bottom));
-            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
-            overflow-y: auto; /* Safety scroll for very small vertical screens */
-        }
-
-        /* Navbar */
-        .nav-header {
-            display: flex; justify-content: space-between; align-items: center;
-            opacity: 0; transform: translateY(-20px);
-            animation: slideDown 1s var(--ease-out-expo) forwards 0.5s;
-            flex-shrink: 0; /* Prevent shrinking */
-        }
-
-        .brand-badge {
-            display: flex; align-items: center; gap: 12px;
-            padding: 10px 20px;
-            background: var(--glass-surface);
-            border: 1px solid var(--glass-border);
-            border-radius: 100px;
-            backdrop-filter: blur(var(--blur-strength));
-            -webkit-backdrop-filter: blur(var(--blur-strength));
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
-            transition: transform 0.3s;
-            cursor: pointer;
-        }
-        .brand-badge:hover { transform: translateY(-2px); background: rgba(255,255,255,0.08); }
-
-        .logo-icon { color: var(--brand-pink); font-size: 1.2rem; }
-        .logo-text { font-weight: 700; font-size: 0.9rem; letter-spacing: 0.5px; }
-
-        .header-controls { display: flex; gap: 15px; }
-        
-        .icon-btn {
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            border: 1px solid var(--glass-border);
-            background: var(--glass-surface);
-            color: var(--text-main);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .icon-btn:hover { background: var(--brand-purple); border-color: var(--brand-purple); }
-
-        /* Main Content */
-        .main-content {
-            max-width: 700px;
-            margin-top: auto;
-            margin-bottom: auto;
-            width: 100%;
-        }
-
-        .status-tag {
-            display: inline-flex; align-items: center; gap: 8px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem; color: var(--brand-cyan);
-            background: rgba(0, 255, 255, 0.05);
-            padding: 6px 12px; border-radius: 4px;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            margin-bottom: 25px;
-            opacity: 0; animation: fadeUp 0.8s var(--ease-out-expo) forwards 0.7s;
-        }
-        .blink { animation: blink 1.5s infinite; }
-        @keyframes blink { 50% { opacity: 0.3; } }
-
-        h1 {
-            /* Responsive Font Scaling */
-            font-size: clamp(2.5rem, 8vw, 5.5rem);
-            font-weight: 800;
-            line-height: 1.05;
-            letter-spacing: -2px;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, #fff 0%, #a5a5a5 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            opacity: 0; animation: fadeUp 1s var(--ease-out-expo) forwards 0.9s;
-        }
-
-        .description {
-            font-size: clamp(1rem, 1.5vw, 1.25rem);
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 50px;
-            max-width: 550px;
-            border-left: 2px solid var(--glass-border);
-            padding-left: 20px;
-            opacity: 0; animation: fadeUp 1s var(--ease-out-expo) forwards 1.1s;
-        }
-
-        /* -----------------------------------------------------------
-           4. INTERACTIVE BUTTON
-           ----------------------------------------------------------- */
-        .cta-container {
-            display: flex; flex-wrap: wrap; gap: 20px; align-items: center;
-            opacity: 0; animation: fadeUp 1s var(--ease-out-expo) forwards 1.3s;
-        }
-
-        .primary-btn {
-            position: relative;
-            padding: 18px 48px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-highlight);
-            border-radius: 100px;
-            color: white;
-            font-size: 1rem; font-weight: 600;
-            cursor: pointer;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            display: flex; align-items: center; gap: 15px;
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
-            white-space: nowrap;
-        }
-
-        .primary-btn::before {
-            content: '';
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, var(--brand-purple), var(--brand-pink));
+            display: flex; flex-direction: column;
+            justify-content: space-between;
+            padding: max(30px, env(safe-area-inset-top)) 25px max(20px, env(safe-area-inset-bottom)) 25px;
+            box-sizing: border-box;
+            
+            /* Simple Fade In for Container */
             opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 0;
+            animation: simpleFadeIn 1s ease-out forwards;
         }
 
-        .primary-btn:hover { transform: translateY(-3px) scale(1.02); border-color: transparent; }
-        .primary-btn:hover::before { opacity: 1; }
+        @keyframes simpleFadeIn { 
+            from{ opacity:0; } to{ opacity:1; } 
+        }
+
+        /* HEADER */
+        .header { 
+            display: flex; 
+            align-items: flex-start;
+            /* Static Fade */
+            opacity: 0;
+            animation: simpleFadeIn 1s ease-out 0.2s forwards;
+        }
+
+        .dept-info { 
+            border-left: 3px solid var(--brand-green); 
+            padding-left: 15px;
+        }
+
+        .dept-title { 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            opacity: 0.9; 
+            margin-bottom: 5px; 
+            display: block; 
+            font-weight: 600;
+        }
+
+        .dept-name { 
+            font-size: 1.1rem; 
+            font-weight: 700;
+        }
+
+        /* HERO TEXT AREA */
+        .hero-section {
+            margin-top: auto;
+            margin-bottom: 40px; 
+            max-width: 800px;
+        }
+
+        /* H1 Styling - REMOVED JS TYPING FOR SMOOTHNESS */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.8rem, 11vw, 4.5rem);
+            line-height: 1.2;
+            margin-bottom: 60px; 
+            color: #ffffff;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            
+            /* Simple Slide Up Animation */
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out 0.4s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SUBTITLE & GREEN ANIMATION */
+        .subtitle {
+            font-size: 1.1rem; 
+            font-weight: 300; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px;
+            
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out 0.6s forwards;
+        }
         
-        .btn-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; }
-
-        /* -----------------------------------------------------------
-           5. FOOTER INFO
-           ----------------------------------------------------------- */
-        .footer-info {
-            display: flex; justify-content: space-between; align-items: flex-end;
-            opacity: 0; animation: fadeIn 1s ease forwards 1.5s;
-            flex-shrink: 0; /* Prevent shrinking */
-        }
-
-        .weather-widget { text-align: left; }
-        .time-display { font-size: 3rem; font-weight: 200; line-height: 1; letter-spacing: -1px; }
-        .date-display { font-size: 0.9rem; color: var(--brand-pink); font-weight: 600; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
-
-        .system-id {
-            text-align: right;
-            font-size: 0.7rem; color: var(--text-muted);
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* -----------------------------------------------------------
-           6. RESPONSIVE MEDIA QUERIES (SCREEN VIEWS)
-           ----------------------------------------------------------- */
-        
-        /* Mobile Portrait */
-        @media (max-width: 768px) {
-            .nav-header { flex-direction: row-reverse; }
-            .brand-badge { display: none; } /* Hide large logo on phone */
-            .logo-text { display: none; }
+        /* The Green Line Animation */
+        .subtitle::before { 
+            content:''; 
+            width: 40px; 
+            height: 3px; 
+            background: var(--brand-green); 
+            border-radius: 2px;
             
-            .main-content { margin-top: 40px; margin-bottom: 40px; }
-            
-            h1 { font-size: 2.8rem; margin-bottom: 20px; }
-            .description { font-size: 0.95rem; margin-bottom: 30px; padding-left: 15px; }
-            
-            .cta-container { width: 100%; }
-            .primary-btn { width: 100%; justify-content: center; padding: 16px; }
-            
-            .footer-info { flex-direction: column; align-items: flex-start; gap: 20px; }
-            .system-id { text-align: left; display: none; } /* Hide ID on small screens to save space */
-            .time-display { font-size: 2.5rem; }
+            /* Enhanced Neon Pulse Animation */
+            box-shadow: 0 0 5px var(--brand-green);
+            animation: greenPulse 2.5s infinite alternate;
         }
 
-        /* Small Mobile / iPhone SE */
-        @media (max-width: 380px) {
-            h1 { font-size: 2.2rem; }
-            .ui-wrapper { padding: 15px; }
+        @keyframes greenPulse {
+            0% {
+                width: 40px;
+                opacity: 0.7;
+                box-shadow: 0 0 5px var(--brand-green);
+            }
+            100% {
+                width: 55px; /* Slight expansion */
+                opacity: 1;
+                box-shadow: 0 0 15px var(--brand-green), 0 0 25px var(--brand-green);
+            }
         }
 
-        /* Mobile Landscape */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .nav-header { display: none; } /* Hide header to save vertical space */
-            .main-content { margin: 10px 0; display: flex; align-items: center; gap: 20px; }
-            h1 { font-size: 2rem; margin-bottom: 10px; }
-            .description { display: none; } /* Hide desc on short screens */
-            .footer-info { display: none; }
+        /* Particles */
+        .particles {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2;
         }
 
-        /* -----------------------------------------------------------
-           7. IFRAME & MODALS
-           ----------------------------------------------------------- */
-        .app-view {
+        .particle {
+            position: absolute; width: 2px; height: 2px; background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%; animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-100px); opacity: 0; }
+        }
+
+        /* --- BOTTOM AREA --- */
+        .bottom-area {
+            display: flex; justify-content: center; align-items: center;
+            margin-bottom: 20px;
+            
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out 0.8s forwards;
+        }
+
+        /* ROUND BUTTON */
+        .round-btn {
+            position: relative; width: 80px; height: 80px; border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px); color: white; font-size: 1.5rem;
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            transition: all 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .round-btn:hover {
+            transform: scale(1.05); border-color: var(--brand-green);
+            background: rgba(67, 176, 42, 0.15);
+            box-shadow: 0 0 20px rgba(67, 176, 42, 0.3);
+        }
+        .round-btn:active { transform: scale(0.95); }
+
+        /* PULSE RINGS */
+        .pulse-ring {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100%; height: 100%; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4);
+            animation: ripple 2s infinite; z-index: -1; pointer-events: none;
+        }
+        .pulse-ring:nth-child(2) { animation-delay: 1s; }
+
+        @keyframes ripple {
+            0% { width: 100%; height: 100%; opacity: 0.8; border-width: 2px; }
+            100% { width: 220%; height: 220%; opacity: 0; border-width: 0px; }
+        }
+
+        /* LOADING STATE */
+        .round-btn.loading .pulse-ring { display: none; }
+        .round-btn.loading i { opacity: 0; }
+        .round-btn.loading::after {
+            content: ''; position: absolute; inset: -4px; border-radius: 50%;
+            border: 4px solid transparent; border-top-color: #43B02A; border-right-color: #EA4335; 
+            border-bottom-color: #FBBC05; border-left-color: #4285F4; animation: spinRainbow 0.8s linear infinite;
+        }
+        @keyframes spinRainbow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- FOOTER --- */
+        .footer {
+            text-align: center;
+            width: 100%;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1s forwards;
+        }
+
+        .footer p {
+            margin: 2px 0;
+            font-size: 0.65rem;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 300;
+        }
+
+        /* APP IFRAME */
+        .app-iframe {
             position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
-            background: #fff; z-index: 999;
-            transform: translateY(100%); transition: transform 0.8s var(--ease-out-expo);
-            padding-top: env(safe-area-inset-top); /* Handle Notch */
+            background: #fff; z-index: 100; transform: translate3d(0, 100%, 0);
+            transition: transform 0.5s cubic-bezier(0.8, 0, 0.2, 1); will-change: transform;
         }
-        .app-view.active { transform: translateY(0); }
-        iframe { width: 100%; height: 100%; border: none; display: block; }
+        .app-iframe.active { transform: translate3d(0, 0, 0); }
+        iframe { width: 100%; height: 100%; border: none; display: block; opacity: 0; transition: opacity 0.6s ease-in; }
+        iframe.loaded { opacity: 1; }
 
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
-            z-index: 500; display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        /* --- MOBILE MEDIA QUERIES --- */
+        @media (max-width: 380px) {
+            h1 { font-size: 2.8rem; margin-bottom: 25px; }
+            .hero-section { margin-bottom: 30px; }
+            .dept-name { font-size: 1rem; }
+            .subtitle { font-size: 0.95rem; }
         }
-        .modal-overlay.open { opacity: 1; pointer-events: all; }
-
-        .glass-modal {
-            background: #1a1a1a; border: 1px solid var(--glass-border);
-            padding: 40px; border-radius: 20px; width: 90%; max-width: 400px;
-            text-align: center; transform: scale(0.9); transition: transform 0.3s;
+        @media (max-height: 700px) {
+            .hero-section { margin-bottom: 20px; }
+            h1 { font-size: 2.5rem; }
         }
-        .modal-overlay.open .glass-modal { transform: scale(1); }
-
-        /* -----------------------------------------------------------
-           8. ANIMATION KEYFRAMES
-           ----------------------------------------------------------- */
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
     </style>
 </head>
 <body>
 
-    <div class="layer-bg" id="bg-layer"></div>
-    <div class="layer-overlay"></div>
-    <canvas id="particle-canvas"></canvas>
+    <div class="bg-layer"></div>
+    <div class="overlay"></div>
+    <div class="particles" id="particles"></div>
 
-    <div class="ui-wrapper" id="ui-main">
-        
-        <header class="nav-header">
-            <div class="brand-badge" onclick="window.location.reload()">
-                <i class="fas fa-cube logo-icon"></i>
-                <span class="logo-text">SHWARI WORKSPACE</span>
+    <div class="ui-container" id="ui-main">
+        <header class="header">
+            <div class="dept-info">
+                <span class="dept-title">Shwari Point of Sales</span>
+                <span class="dept-name">Internal Portal</span>
             </div>
-            
-            <div class="header-controls">
-                </div>
         </header>
 
-        <main class="main-content">
-            <div>
-                
-            <h1>Sales Vision<br>Booking Action.</h1>
+        <div class="hero-section">
+            <h1 id="hero-title">
+                Sales Vision<br>Booking Action
+            </h1>
             
-            <p class="description">
-                Welcome back, <strong>to Sale Hub</strong><br>
-                Access the centralized logistics, sales tracking, and financial operations dashboard for Shwari Movers & Cleaners.
-            </p>
+            <div class="subtitle">Building a trusted Sales Network</div>
+        </div>
 
-            <div class="cta-container">
-                <button class="primary-btn" onclick="initiateLogin()">
-                    <span class="btn-content">
-                        <span>Access Dashboard</span>
-    
-                    </span>
+        <div>
+            <div class="bottom-area">
+                <button class="round-btn" onclick="startLoading(this)" aria-label="Enter Portal">
+                    <div class="pulse-ring"></div>
+                    <div class="pulse-ring"></div>
+                    <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
-        </main>
 
-        <footer class="footer-info">
-            <div class="weather-widget">
-                <div class="time-display" id="clock">00:00</div>
-                <div class="date-display" id="date">JAN 01</div>
-                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 5px;">
-                    <i class="fas fa-map-marker-alt" style="color:var(--brand-pink)"></i> Nairobi, KE • 24°C Cloudy
-                </div>
-            </div>
-
-            <div class="system-id">
-                ID: SHW-8821<br>
-                SECURE CONN
-            </div>
-        </footer>
-    </div>
-
-    <div class="modal-overlay" id="settings-modal" onclick="closeModals(event)">
-        <div class="glass-modal">
-            <h2 style="margin-bottom: 20px;">System Preferences</h2>
-            <p style="color: #888; margin-bottom: 30px;">Display settings are managed centrally by admin.</p>
-            <button class="primary-btn" style="width:100%; justify-content:center;" onclick="toggleModal('settings-modal')">Close</button>
+            <footer class="footer">
+                <p>Property of Shwari Movers and Cleaners Ltd</p>
+                <p>All rights reserved &copy; 2026</p>
+            </footer>
         </div>
     </div>
 
-    <div class="app-view" id="app-layer">
-        <iframe id="app-frame" src="about:blank" allowfullscreen></iframe>
+    <div class="app-iframe" id="app-view">
+        <iframe 
+            loading="eager" 
+            onload="this.classList.add('loaded')" 
+            src="https://script.google.com/macros/s/AKfycbwH5wUXighD6RtgK1tmjIDg-xf4--PMW7w40ioC0NVFhe2_NeXz8V5wTVZDsPeQa8Hw/exec">
+        </iframe>
     </div>
 
     <script>
-        // --- 1. INITIALIZATION & ASSET LOADING ---
-        window.addEventListener('load', () => {
-            document.getElementById('bg-layer').classList.add('loaded');
+        // BACKGROUND PARTICLES (Lightweight JS)
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
             
-            // PERFORMANCE FIX: Load iframe IMMEDIATELY in the background
-            const url = "https://script.google.com/macros/s/AKfycbwH5wUXighD6RtgK1tmjIDg-xf4--PMW7w40ioC0NVFhe2_NeXz8V5wTVZDsPeQa8Hw/exec";
-            document.getElementById('app-frame').src = url;
-
-            // Start Particle System
-            initParticles();
-        });
-
-        // --- 2. CLOCK & DATE LOGIC ---
-        function updateTime() {
-            const now = new Date();
-            const h = String(now.getHours()).padStart(2, '0');
-            const m = String(now.getMinutes()).padStart(2, '0');
-            
-            document.getElementById('clock').innerText = `${h}:${m}`;
-            
-            const opts = { month: 'short', day: 'numeric', weekday: 'short' };
-            document.getElementById('date').innerText = now.toLocaleDateString('en-US', opts).toUpperCase();
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.width = `${Math.random() * 2 + 1}px`;
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                particle.style.opacity = Math.random() * 0.3 + 0.1;
+                particlesContainer.appendChild(particle);
+            }
         }
-        setInterval(updateTime, 1000);
-        updateTime();
 
-        // --- 3. LOGIN SEQUENCE ANIMATION (CLEAN APPLE-STYLE FADE) ---
-        function initiateLogin() {
+        // Start loading animation
+        function startLoading(btnElement) {
             const ui = document.getElementById('ui-main');
-            const app = document.getElementById('app-layer');
-            
-            // Step 1: Smooth Fade Out
-            ui.style.opacity = '0';
-            ui.style.transform = 'scale(0.98)';
-            
-            // Step 2: Slide In App
+            const app = document.getElementById('app-view');
+
+            // Fade out UI Elements
+            const elements = document.querySelectorAll('.header, .hero-section, .bottom-area, .footer');
+            elements.forEach(el => {
+                el.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                el.style.transform = 'translateY(-20px)';
+                el.style.opacity = '0';
+            });
+
+            btnElement.classList.add('loading');
+
+            const bgLayer = document.querySelector('.bg-layer');
+            bgLayer.style.transition = 'all 1s ease-in-out';
+            bgLayer.style.filter = 'brightness(0.4) blur(8px)';
+
             setTimeout(() => {
                 app.classList.add('active');
-            }, 500);
+            }, 1200);
         }
 
-        // --- 4. MODAL LOGIC ---
-        function toggleModal(id) {
-            const el = document.getElementById(id);
-            if(el.classList.contains('open')) el.classList.remove('open');
-            else el.classList.add('open');
-        }
-        function closeModals(e) {
-            if(e.target.classList.contains('modal-overlay')) {
-                e.target.classList.remove('open');
-            }
-        }
-
-        // --- 5. PARTICLE SYSTEM (CANVAS) ---
-        function initParticles() {
-            const canvas = document.getElementById('particle-canvas');
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            
-            const resize = () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            };
-            window.addEventListener('resize', resize);
-            resize();
-
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.vx = (Math.random() - 0.5) * 0.5;
-                    this.vy = (Math.random() - 0.5) * 0.5;
-                    this.size = Math.random() * 2;
-                    this.alpha = Math.random() * 0.5 + 0.1;
-                }
-                update() {
-                    this.x += this.vx;
-                    this.y += this.vy;
-                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-                }
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
-                    ctx.fill();
-                }
-            }
-
-            // Create 60 particles
-            for (let i = 0; i < 60; i++) particles.push(new Particle());
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                particles.forEach((p, index) => {
-                    p.update();
-                    p.draw();
-                    
-                    // Draw connections if close
-                    for (let j = index + 1; j < particles.length; j++) {
-                        const p2 = particles[j];
-                        const dx = p.x - p2.x;
-                        const dy = p.y - p2.y;
-                        const dist = Math.sqrt(dx*dx + dy*dy);
-                        
-                        if (dist < 100) {
-                            ctx.beginPath();
-                            ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - dist/1000})`;
-                            ctx.lineWidth = 0.5;
-                            ctx.moveTo(p.x, p.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            ctx.stroke();
-                        }
-                    }
-                });
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
+        window.addEventListener('load', () => {
+            createParticles();
+        });
     </script>
 </body>
 </html>
