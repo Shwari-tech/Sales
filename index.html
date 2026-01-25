@@ -15,9 +15,8 @@
     
     <style>
         :root {
-            /* CHANGED: From Green to Purple */
+            /* Purple Theme */
             --brand-purple: #A960EE;
-            /* RGB values used for transparent rgba() colors */
             --brand-purple-rgb: 169, 96, 238; 
         }
 
@@ -34,9 +33,12 @@
         /* --- BACKGROUND --- */
         .bg-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://images.pexels.com/photos/34610771/pexels-photo-34610771/free-photo-of-confident-female-entrepreneur-in-modern-workspace.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500');
+            background-image: url('https://img.freepik.com/premium-photo/business-woman-computer-with-portrait-night-creative-deadline-project-planning-confidence-professional-employee-technology-office-software-test-management-efficiency_590464-331949.jpg?semt=ais_hybrid&w=740&q=80');
             background-size: cover;
-            background-position: center;
+            
+            /* CHANGED: Pushed image slightly to the left */
+            background-position: 25% center; 
+            
             z-index: 0;
             filter: brightness(0.85) contrast(1.1);
             will-change: transform;
@@ -50,7 +52,6 @@
 
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            /* Optional: Added a very slight purple tint to the bottom of the gradient */
             background: linear-gradient(to top, rgba(20, 0, 40, 0.9) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.1) 100%);
             z-index: 1;
             pointer-events: none;
@@ -81,7 +82,6 @@
         }
 
         .dept-info { 
-            /* CHANGED: Use purple variable */
             border-left: 3px solid var(--brand-purple); 
             padding-left: 15px;
         }
@@ -125,27 +125,17 @@
             animation: fadeInUp 1s ease-out 0.6s forwards;
         }
         
-        /* The Purple Line Animation */
         .subtitle::before { 
             content:''; width: 40px; height: 3px; 
-            /* CHANGED: Use purple variable */
             background: var(--brand-purple); 
             border-radius: 2px;
-            /* CHANGED: Use purple variable and renamed animation */
             box-shadow: 0 0 5px var(--brand-purple);
             animation: purplePulse 2.5s infinite alternate;
         }
 
-        /* CHANGED: Renamed to purplePulse and updated colors */
         @keyframes purplePulse {
-            0% {
-                width: 40px; opacity: 0.7;
-                box-shadow: 0 0 5px var(--brand-purple);
-            }
-            100% {
-                width: 55px; opacity: 1;
-                box-shadow: 0 0 15px var(--brand-purple), 0 0 25px var(--brand-purple);
-            }
+            0% { width: 40px; opacity: 0.7; box-shadow: 0 0 5px var(--brand-purple); }
+            100% { width: 55px; opacity: 1; box-shadow: 0 0 15px var(--brand-purple), 0 0 25px var(--brand-purple); }
         }
 
         /* Particles */
@@ -169,7 +159,7 @@
             animation: fadeInUp 1s ease-out 0.8s forwards;
         }
 
-        /* ROUND BUTTON - ENHANCED ANIMATION */
+        /* ROUND BUTTON */
         .round-btn {
             position: relative; width: 80px; height: 80px; border-radius: 50%;
             border: 1px solid rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.1);
@@ -177,40 +167,25 @@
             cursor: pointer; display: flex; justify-content: center; align-items: center;
             transition: all 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             -webkit-tap-highlight-color: transparent;
-            /* Added overflow hidden for the shine effect */
             overflow: hidden;
         }
 
-        /* New: Shine sweep effect on hover */
+        /* Shine sweep effect */
         .round-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(
-                120deg,
-                transparent,
-                rgba(255, 255, 255, 0.4),
-                transparent
-            );
-            transition: all 0.6s;
-            z-index: 1;
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.6s; z-index: 1;
         }
 
-        .round-btn:hover::before {
-            left: 100%;
-        }
+        .round-btn:hover::before { left: 100%; }
 
         .round-btn:hover {
             transform: scale(1.05); 
-            /* CHANGED: Updated hover colors to purple rgba equivalents */
             border-color: var(--brand-purple);
             background: rgba(var(--brand-purple-rgb), 0.15);
             box-shadow: 0 0 20px rgba(var(--brand-purple-rgb), 0.4);
         }
         .round-btn:active { transform: scale(0.95); }
-        
-        /* Ensure icon stays on top of shine */
         .round-btn i { z-index: 2; }
 
         /* PULSE RINGS */
@@ -226,18 +201,15 @@
             100% { width: 220%; height: 220%; opacity: 0; border-width: 0px; }
         }
 
-        /* ENHANCED LOADING STATE */
+        /* LOADING STATE */
         .round-btn.loading .pulse-ring { display: none; }
         .round-btn.loading i { opacity: 0; transition: opacity 0.2s; }
         
-        /* Changed: Thicker, glowing purple spinner */
         .round-btn.loading::after {
             content: ''; position: absolute; inset: -4px; border-radius: 50%;
             border: 4px solid transparent; 
-            /* Only top and left border for a sweeping effect */
             border-top-color: var(--brand-purple); 
             border-left-color: rgba(var(--brand-purple-rgb), 0.5);
-            /* Add a strong purple glow */
             filter: drop-shadow(0 0 8px var(--brand-purple));
             animation: spinEnhanced 0.8s linear infinite;
             z-index: 3;
@@ -329,7 +301,7 @@
     </div>
 
     <script>
-        // BACKGROUND PARTICLES (Lightweight JS)
+        // BACKGROUND PARTICLES
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             const particleCount = 20;
@@ -352,7 +324,6 @@
             const ui = document.getElementById('ui-main');
             const app = document.getElementById('app-view');
 
-            // Fade out UI Elements
             const elements = document.querySelectorAll('.header, .hero-section, .bottom-area, .footer');
             elements.forEach(el => {
                 el.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
