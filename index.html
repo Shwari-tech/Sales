@@ -1,826 +1,376 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-
     <meta name="theme-color" content="#000000">
-
+    <meta name="description" content="Shwari Movers and Cleaners Sales Portal">
     <title>Shwari Sales | Secure Access</title>
 
-
-
-    <link rel="preload" as="image" href="https://www.austintec.com/wp-content/uploads/2023/10/jobs-for-women-in-construction.jpg">
-
-    <link rel="preconnect" href="https://script.google.com">
-
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="image" href="https://img.freepik.com/premium-photo/happy-computer-portrait-black-woman-office-creative-research-with-project-online-smile-technology-african-female-copywriting-editor-working-web-design-pc-workplace_590464-374762.jpg">
 
     <link rel="icon" type="image/png" href="images/logo.png">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-
     
-
     <style>
-
         :root {
-
-            /* Purple Theme */
-
+            /* Theme Variables */
             --brand-purple: #A960EE;
-
-            --brand-purple-rgb: 169, 96, 238; 
-
+            --brand-purple-rgb: 169, 96, 238;
+            --text-light: #ffffff;
+            --bg-dark: #000000;
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            
+            /* Animation Timings */
+            --anim-ease: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-
-
+        /* --- RESET & BASE --- */
+        *, *::before, *::after { box-sizing: border-box; }
+        
         body, html {
-
             margin: 0; padding: 0;
-
             height: 100dvh; width: 100%;
-
             overflow: hidden;
-
-            background: #000;
-
+            background: var(--bg-dark);
             font-family: 'Inter', sans-serif;
-
-            color: white;
-
+            color: var(--text-light);
             -webkit-tap-highlight-color: transparent;
-
         }
 
-
-
-        /* --- BACKGROUND --- */
-
+        /* --- BACKGROUND LAYERS --- */
         .bg-layer {
-
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-
+            position: fixed; inset: 0;
             background-image: url('https://img.freepik.com/premium-photo/happy-computer-portrait-black-woman-office-creative-research-with-project-online-smile-technology-african-female-copywriting-editor-working-web-design-pc-workplace_590464-374762.jpg');
-
             background-size: cover;
-
             background-position: 75% center; 
-
             z-index: 0;
-
             filter: brightness(0.85) contrast(1.1);
-
-            will-change: transform;
-
+            will-change: transform, filter;
             animation: breathe 30s ease-in-out infinite alternate;
-
         }
-
-
-
-        @keyframes breathe {
-
-            0% { transform: scale(1); }
-
-            100% { transform: scale(1.15); }
-
-        }
-
-
 
         .overlay {
-
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-
+            position: fixed; inset: 0;
             background: linear-gradient(to top, rgba(20, 0, 40, 0.9) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.1) 100%);
-
             z-index: 1;
-
             pointer-events: none;
-
         }
-
-
 
         /* --- UI CONTAINER --- */
-
         .ui-container {
-
             position: relative; z-index: 10;
-
             width: 100%; height: 100%;
-
             display: flex; flex-direction: column;
-
             justify-content: space-between;
-
             padding: max(30px, env(safe-area-inset-top)) 25px max(20px, env(safe-area-inset-bottom)) 25px;
-
-            box-sizing: border-box;
-
             opacity: 0;
-
             animation: simpleFadeIn 1s ease-out forwards;
-
         }
 
-
-
-        @keyframes simpleFadeIn { 
-
-            from{ opacity:0; } to{ opacity:1; } 
-
-        }
-
-
-
-        /* HEADER */
-
+        /* --- HEADER --- */
         .header { 
-
-            display: flex; 
-
-            align-items: flex-start;
-
+            display: flex; align-items: flex-start;
             opacity: 0;
-
             animation: simpleFadeIn 1s ease-out 0.2s forwards;
-
         }
-
-
 
         .dept-info { 
-
-            position: relative;
-
-            padding-left: 15px;
-
-            /* Removed static border-left to use animated ::before */
-
+            position: relative; padding-left: 15px;
         }
-
-
-
-        /* NEW ANIMATION: Line Draw */
 
         .dept-info::before {
-
             content: '';
-
             position: absolute; left: 0; top: 0; bottom: 0;
-
             width: 3px;
-
             background: var(--brand-purple);
-
             transform-origin: top;
-
             transform: scaleY(0);
-
             animation: growLine 0.8s ease-out 0.5s forwards;
-
         }
-
-
-
-        @keyframes growLine {
-
-            to { transform: scaleY(1); }
-
-        }
-
-
 
         .dept-title { 
-
             font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; 
-
             opacity: 0.9; margin-bottom: 5px; display: block; font-weight: 600;
-
         }
-
-
 
         .dept-name { 
-
             font-size: 1.1rem; font-weight: 700;
-
-            display: block;
-
-            opacity: 0;
-
-            transform: translateX(-10px);
-
-            /* NEW ANIMATION: Slide In */
-
+            display: block; opacity: 0; transform: translateX(-10px);
             animation: slideInRight 0.8s ease-out 0.8s forwards;
-
         }
 
-
-
-        @keyframes slideInRight {
-
-            to { opacity: 1; transform: translateX(0); }
-
-        }
-
-
-
-        /* HERO TEXT AREA */
-
+        /* --- HERO SECTION --- */
         .hero-section {
-
-            margin-top: auto;
-
-            margin-bottom: 40px; 
-
-            max-width: 800px;
-
+            margin-top: auto; margin-bottom: 40px; max-width: 800px;
         }
-
-
 
         h1 {
-
             font-family: 'Playfair Display', serif;
-
             font-size: clamp(3.8rem, 11vw, 4.5rem);
-
             line-height: 1.2;
-
-            margin-bottom: 60px; 
-
+            margin-bottom: 60px; margin-top: 0;
             
-
-            /* NEW ANIMATION: Text Shimmer Gradient */
-
+            /* Gradient Text */
             background: linear-gradient(110deg, #ffffff 30%, #e0c3fc 45%, #ffffff 60%);
-
             background-size: 200% auto;
-
             -webkit-background-clip: text;
-
             -webkit-text-fill-color: transparent;
-
-            /* Fallback for browsers that don't support text-fill-color */
-
-            color: #ffffff; 
-
+            color: #ffffff; /* Fallback */
             
-
             text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-
-            opacity: 0;
-
-            transform: translateY(20px);
-
-            /* Combined animations: FadeInUp + Shimmer */
-
+            opacity: 0; transform: translateY(20px);
             animation: fadeInUp 1s ease-out 0.4s forwards, shimmer 6s infinite linear;
-
         }
-
-
-
-        @keyframes shimmer {
-
-            to { background-position: -200% center; }
-
-        }
-
-
-
-        @keyframes fadeInUp {
-
-            to { opacity: 1; transform: translateY(0); }
-
-        }
-
-
-
-        /* SUBTITLE & ANIMATION */
 
         .subtitle {
-
             font-size: 1.1rem; font-weight: 300; display: flex; align-items: center; gap: 15px;
-
             opacity: 0; transform: translateY(20px);
-
             animation: fadeInUp 1s ease-out 0.6s forwards;
-
         }
-
         
-
         .subtitle::before { 
-
             content:''; width: 40px; height: 3px; 
-
             background: var(--brand-purple); 
-
             border-radius: 2px;
-
             box-shadow: 0 0 5px var(--brand-purple);
-
             animation: purplePulse 2.5s infinite alternate;
-
         }
 
-
-
-        @keyframes purplePulse {
-
-            0% { width: 40px; opacity: 0.7; box-shadow: 0 0 5px var(--brand-purple); }
-
-            100% { width: 55px; opacity: 1; box-shadow: 0 0 15px var(--brand-purple), 0 0 25px var(--brand-purple); }
-
-        }
-
-
-
-        /* Particles */
-
-        .particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
-
-        .particle {
-
-            position: absolute; width: 2px; height: 2px; background: rgba(255, 255, 255, 0.5);
-
-            border-radius: 50%; animation: float 15s infinite linear;
-
-        }
-
-
-
-        @keyframes float {
-
-            0% { transform: translateY(100vh); opacity: 0; }
-
-            10% { opacity: 1; }
-
-            100% { transform: translateY(-100px); opacity: 0; }
-
-        }
-
-
-
-        /* --- BOTTOM AREA --- */
-
+        /* --- INTERACTION AREA --- */
         .bottom-area {
-
             display: flex; justify-content: center; align-items: center;
-
             margin-bottom: 20px;
-
             opacity: 0; transform: translateY(20px);
-
             animation: fadeInUp 1s ease-out 0.8s forwards;
-
         }
 
-
-
-        /* ROUND BUTTON */
-
+        /* Button Styling */
         .round-btn {
-
             position: relative; width: 80px; height: 80px; border-radius: 50%;
-
-            border: 1px solid rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.1);
-
-            backdrop-filter: blur(15px); color: white; font-size: 1.5rem;
-
+            border: 1px solid var(--glass-border); 
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            color: white; font-size: 1.5rem;
             cursor: pointer; display: flex; justify-content: center; align-items: center;
-
-            
-
-            /* Transition for smooth hover override */
-
             transition: all 0.3s; 
-
-            
-
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-
-            -webkit-tap-highlight-color: transparent;
-
             overflow: hidden;
-
-            
-
-            /* Breathing Animation */
-
             animation: btn-breathe 3s infinite ease-in-out;
-
         }
-
-
-
-        /* Breathing Keyframes */
-
-        @keyframes btn-breathe {
-
-            0% { transform: scale(1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-
-            50% { transform: scale(1.08); box-shadow: 0 0 25px rgba(169, 96, 238, 0.5); }
-
-            100% { transform: scale(1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-
-        }
-
-
-
-        /* Shine sweep effect */
-
-        .round-btn::before {
-
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-
-            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-
-            transition: all 0.6s; z-index: 1;
-
-        }
-
-
-
-        .round-btn:hover::before { left: 100%; }
-
-
 
         .round-btn:hover {
-
-            /* Stop the breathing animation on hover so it stays large */
-
             animation: none;
-
             transform: scale(1.15); 
-
             border-color: var(--brand-purple);
-
             background: rgba(var(--brand-purple-rgb), 0.15);
-
             box-shadow: 0 0 30px rgba(var(--brand-purple-rgb), 0.6);
-
         }
-
         
-
         .round-btn:active { transform: scale(0.95); }
 
+        /* Shine Effect */
+        .round-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.6s; z-index: 1;
+        }
+        .round-btn:hover::before { left: 100%; }
+
+        /* Icon Animation */
+        .round-btn i { z-index: 2; animation: arrow-nudge 1.5s infinite ease-in-out; }
+
+        /* Loading State */
+        .round-btn.loading { animation: none; transform: scale(1); pointer-events: none; }
+        .round-btn.loading .pulse-ring { display: none; }
+        .round-btn.loading i { opacity: 0; transition: opacity 0.2s; }
         
-
-        /* Arrow Nudge Animation */
-
-        .round-btn i { 
-
-            z-index: 2; 
-
-            animation: arrow-nudge 1.5s infinite ease-in-out;
-
+        .round-btn.loading::after {
+            content: ''; position: absolute; inset: -4px; border-radius: 50%;
+            border: 4px solid transparent; 
+            border-top-color: var(--brand-purple); 
+            border-left-color: rgba(var(--brand-purple-rgb), 0.5);
+            animation: spinEnhanced 0.8s linear infinite;
+            z-index: 3;
         }
 
-
-
-        @keyframes arrow-nudge {
-
-            0%, 100% { transform: translateX(0); }
-
-            50% { transform: translateX(4px); }
-
-        }
-
-
-
-        /* PULSE RINGS */
-
+        /* Pulse Rings */
         .pulse-ring {
-
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-
             width: 100%; height: 100%; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4);
-
             animation: ripple 2s infinite; z-index: -1; pointer-events: none;
-
         }
-
         .pulse-ring:nth-child(2) { animation-delay: 1s; }
 
-
-
-        @keyframes ripple {
-
-            0% { width: 100%; height: 100%; opacity: 0.8; border-width: 2px; }
-
-            100% { width: 220%; height: 220%; opacity: 0; border-width: 0px; }
-
-        }
-
-
-
-        /* LOADING STATE */
-
-        .round-btn.loading { animation: none; transform: scale(1); }
-
-        .round-btn.loading .pulse-ring { display: none; }
-
-        .round-btn.loading i { opacity: 0; transition: opacity 0.2s; }
-
-        
-
-        .round-btn.loading::after {
-
-            content: ''; position: absolute; inset: -4px; border-radius: 50%;
-
-            border: 4px solid transparent; 
-
-            border-top-color: var(--brand-purple); 
-
-            border-left-color: rgba(var(--brand-purple-rgb), 0.5);
-
-            filter: drop-shadow(0 0 8px var(--brand-purple));
-
-            animation: spinEnhanced 0.8s linear infinite;
-
-            z-index: 3;
-
-        }
-
-        
-
-        @keyframes spinEnhanced { 
-
-            0% { transform: rotate(0deg); } 
-
-            100% { transform: rotate(360deg); } 
-
-        }
-
-
-
         /* --- FOOTER --- */
-
         .footer {
-
             text-align: center; width: 100%; opacity: 0;
-
             animation: fadeInUp 1s ease-out 1s forwards;
-
         }
-
-
-
         .footer p {
-
             margin: 2px 0; font-size: 0.65rem; letter-spacing: 0.5px;
-
             color: rgba(255, 255, 255, 0.6); font-weight: 300;
-
         }
 
+        /* --- PARTICLES --- */
+        .particles { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+        .particle {
+            position: absolute; width: 2px; height: 2px; background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%; animation: float 15s infinite linear;
+        }
 
-
-        /* APP IFRAME */
-
+        /* --- IFRAME APPLICATION --- */
         .app-iframe {
-
-            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
-
+            position: fixed; inset: 0;
             background: #fff; z-index: 100; transform: translate3d(0, 100%, 0);
-
-            transition: transform 0.5s cubic-bezier(0.8, 0, 0.2, 1); will-change: transform;
-
+            transition: transform 0.8s var(--anim-ease); will-change: transform;
         }
-
         .app-iframe.active { transform: translate3d(0, 0, 0); }
-
-        iframe { width: 100%; height: 100%; border: none; display: block; opacity: 0; transition: opacity 0.6s ease-in; }
-
+        
+        iframe { 
+            width: 100%; height: 100%; border: none; display: block; 
+            opacity: 0; transition: opacity 0.6s ease-in; 
+        }
         iframe.loaded { opacity: 1; }
 
+        /* --- ANIMATIONS KEYFRAMES --- */
+        @keyframes breathe { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
+        @keyframes simpleFadeIn { from{ opacity:0; } to{ opacity:1; } }
+        @keyframes growLine { to { transform: scaleY(1); } }
+        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes shimmer { to { background-position: -200% center; } }
+        @keyframes purplePulse { 0% { width: 40px; opacity: 0.7; box-shadow: 0 0 5px var(--brand-purple); } 100% { width: 55px; opacity: 1; box-shadow: 0 0 15px var(--brand-purple), 0 0 25px var(--brand-purple); } }
+        @keyframes float { 0% { transform: translateY(100vh); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(-100px); opacity: 0; } }
+        @keyframes btn-breathe { 0% { transform: scale(1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); } 50% { transform: scale(1.08); box-shadow: 0 0 25px rgba(169, 96, 238, 0.5); } 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); } }
+        @keyframes arrow-nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+        @keyframes ripple { 0% { width: 100%; height: 100%; opacity: 0.8; border-width: 2px; } 100% { width: 220%; height: 220%; opacity: 0; border-width: 0px; } }
+        @keyframes spinEnhanced { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-
-        /* --- MOBILE MEDIA QUERIES --- */
-
+        /* --- MEDIA QUERIES --- */
         @media (max-width: 380px) {
-
             h1 { font-size: 2.8rem; margin-bottom: 25px; }
-
             .hero-section { margin-bottom: 30px; }
-
             .dept-name { font-size: 1rem; }
-
             .subtitle { font-size: 0.95rem; }
-
         }
-
         @media (max-height: 700px) {
-
             .hero-section { margin-bottom: 20px; }
-
             h1 { font-size: 2.5rem; }
-
         }
-
     </style>
-
 </head>
-
 <body>
 
+    <div class="bg-layer" aria-hidden="true"></div>
+    <div class="overlay" aria-hidden="true"></div>
+    <div class="particles" id="particles" aria-hidden="true"></div>
 
-
-    <div class="bg-layer"></div>
-
-    <div class="overlay"></div>
-
-    <div class="particles" id="particles"></div>
-
-
-
-    <div class="ui-container" id="ui-main">
-
+    <main class="ui-container" id="ui-main">
         <header class="header">
-
             <div class="dept-info">
-
                 <span class="dept-title">Shwari Movers and Cleaners LTD</span>
-
                 <span class="dept-name">Point of Sales</span>
-
             </div>
-
         </header>
 
-
-
-        <div class="hero-section">
-
-            <h1 id="hero-title">
-
-                Sales <br>Booking 
-
-            </h1>
-
-            
-
+        <section class="hero-section">
+            <h1>Sales <br>Booking</h1>
             <div class="subtitle">Building Sales Network</div>
-
-        </div>
-
-
+        </section>
 
         <div>
-
             <div class="bottom-area">
-
-                <button class="round-btn" onclick="startLoading(this)" aria-label="Enter Portal">
-
-                    <div class="pulse-ring"></div>
-
-                    <div class="pulse-ring"></div>
-
+                <button id="enterBtn" class="round-btn" aria-label="Enter Sales Portal">
+                    <span class="pulse-ring"></span>
+                    <span class="pulse-ring"></span>
                     <i class="fas fa-arrow-right"></i>
-
                 </button>
-
             </div>
 
-
-
             <footer class="footer">
-
                 <p>Property of Shwari Movers and Cleaners Ltd</p>
-
                 <p>All rights reserved &copy; 2026</p>
-
             </footer>
-
         </div>
+    </main>
 
-    </div>
-
-
-
-    <div class="app-iframe" id="app-view">
-
+    <div class="app-iframe" id="app-view" aria-hidden="true">
         <iframe 
-
+            id="google-script-frame"
+            title="Sales Booking System"
             loading="eager" 
-
-            onload="this.classList.add('loaded')" 
-
             src="https://script.google.com/macros/s/AKfycbwH5wUXighD6RtgK1tmjIDg-xf4--PMW7w40ioC0NVFhe2_NeXz8V5wTVZDsPeQa8Hw/exec">
-
         </iframe>
-
     </div>
-
-
 
     <script>
-
-        // BACKGROUND PARTICLES
-
-        function createParticles() {
-
-            const particlesContainer = document.getElementById('particles');
-
-            const particleCount = 20;
-
-            
-
-            for (let i = 0; i < particleCount; i++) {
-
-                const particle = document.createElement('div');
-
-                particle.classList.add('particle');
-
-                particle.style.left = `${Math.random() * 100}%`;
-
-                particle.style.width = `${Math.random() * 2 + 1}px`;
-
-                particle.style.height = particle.style.width;
-
-                particle.style.animationDelay = `${Math.random() * 15}s`;
-
-                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
-
-                particle.style.opacity = Math.random() * 0.3 + 0.1;
-
-                particlesContainer.appendChild(particle);
-
-            }
-
-        }
-
-
-
-        // Start loading animation
-
-        function startLoading(btnElement) {
-
-            const ui = document.getElementById('ui-main');
-
-            const app = document.getElementById('app-view');
-
-
-
-            const elements = document.querySelectorAll('.header, .hero-section, .bottom-area, .footer');
-
-            elements.forEach(el => {
-
-                el.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-
-                el.style.transform = 'translateY(-20px)';
-
-                el.style.opacity = '0';
-
-            });
-
-
-
-            btnElement.classList.add('loading');
-
-
-
-            const bgLayer = document.querySelector('.bg-layer');
-
-            bgLayer.style.transition = 'all 1s ease-in-out';
-
-            bgLayer.style.filter = 'brightness(0.4) blur(8px)';
-
-
-
-            setTimeout(() => {
-
-                app.classList.add('active');
-
-            }, 1200);
-
-        }
-
-
-
-        window.addEventListener('load', () => {
-
-            createParticles();
-
+        document.addEventListener('DOMContentLoaded', () => {
+            initParticles();
+            initInteractions();
         });
 
+        function initParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 20;
+            const fragment = document.createDocumentFragment();
+
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                p.style.left = `${Math.random() * 100}%`;
+                p.style.width = p.style.height = `${Math.random() * 2 + 1}px`;
+                p.style.animationDelay = `${Math.random() * 15}s`;
+                p.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                p.style.opacity = Math.random() * 0.3 + 0.1;
+                fragment.appendChild(p);
+            }
+            container.appendChild(fragment);
+        }
+
+        function initInteractions() {
+            const btn = document.getElementById('enterBtn');
+            const iframe = document.getElementById('google-script-frame');
+            
+            // Handle Iframe Load
+            iframe.onload = function() {
+                this.classList.add('loaded');
+            };
+
+            // Handle Button Click
+            btn.addEventListener('click', () => {
+                const ui = document.getElementById('ui-main');
+                const appWrapper = document.getElementById('app-view');
+                const bgLayer = document.querySelector('.bg-layer');
+                const uiElements = document.querySelectorAll('.header, .hero-section, .bottom-area, .footer');
+
+                // 1. Animate UI Out
+                uiElements.forEach(el => {
+                    el.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                    el.style.transform = 'translateY(-20px)';
+                    el.style.opacity = '0';
+                });
+
+                // 2. Button Loading State
+                btn.classList.add('loading');
+
+                // 3. Background Dim
+                bgLayer.style.transition = 'all 1s ease-in-out';
+                bgLayer.style.filter = 'brightness(0.4) blur(8px)';
+
+                // 4. Reveal App (Slight delay for transition effect)
+                setTimeout(() => {
+                    appWrapper.classList.add('active');
+                    appWrapper.setAttribute('aria-hidden', 'false');
+                    // Reset UI hidden status for screen readers
+                    ui.setAttribute('aria-hidden', 'true');
+                }, 1200);
+            });
+        }
     </script>
-
 </body>
-
 </html>
-
