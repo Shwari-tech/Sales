@@ -4,363 +4,323 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
-    <title>Shwari Sales | Secure Access</title>
-
-    <link rel="preload" as="image" href="https://www.austintec.com/wp-content/uploads/2023/10/jobs-for-women-in-construction.jpg">
-    <link rel="preconnect" href="https://script.google.com">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Shwari Workspace</title>
     
-    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="preload" as="image" href="https://media.sgff.io/sgff_r1eHetbDYb/2020-08-10/1597059165082/section-1.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <style>
         :root {
+            --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
             --brand-green: #43B02A;
+            --ring-colors: conic-gradient(from 0deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3, #FF0000);
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
         body, html {
-            margin: 0; padding: 0;
             height: 100dvh; width: 100%;
             overflow: hidden;
             background: #000;
             font-family: 'Inter', sans-serif;
             color: white;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- BACKGROUND --- */
+        /* --- 1. BACKGROUND --- */
         .bg-layer {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://img.freepik.com/premium-photo/portrait-businessman-sitting-office-desk_1048944-19832219.jpg?semt=ais_hybrid&w=740&q=80');
+            position: fixed; inset: 0;
+            background-image: url('https://media.sgff.io/sgff_r1eHetbDYb/2020-08-10/1597059165082/section-1.jpg');
             background-size: cover;
             background-position: center;
             z-index: 0;
-            filter: brightness(0.85) contrast(1.1);
-            will-change: transform;
-            animation: breathe 30s ease-in-out infinite alternate;
+            transform: scale(1.1);
+            filter: brightness(0.6);
+            transition: transform 20s ease-out, filter 1.5s ease;
+            will-change: transform, filter;
+        }
+        
+        .bg-layer.loaded { transform: scale(1); }
+
+        .vignette {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.9) 100%);
+            z-index: 1; pointer-events: none;
         }
 
-        @keyframes breathe {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.15); }
-        }
-
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.1) 100%);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* --- UI CONTAINER --- */
-        .ui-container {
+        /* --- 2. LAYOUT --- */
+        .ui-wrapper {
             position: relative; z-index: 10;
-            width: 100%; height: 100%;
+            height: 100%; width: 100%;
             display: flex; flex-direction: column;
-            justify-content: space-between;
-            padding: max(30px, env(safe-area-inset-top)) 25px max(20px, env(safe-area-inset-bottom)) 25px;
-            box-sizing: border-box;
-            
-            /* Simple Fade In for Container */
-            opacity: 0;
-            animation: simpleFadeIn 1s ease-out forwards;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
         }
 
-        @keyframes simpleFadeIn { 
-            from{ opacity:0; } to{ opacity:1; } 
+        /* --- NEW DESIGNED HEADER LOGO --- */
+        .header-badge {
+            position: absolute; top: 40px; left: 40px;
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.08); /* Subtle glass */
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            cursor: default;
+            opacity: 0; /* Animated in via JS/CSS */
+            animation: fadeInDown 1s var(--ease-out) 0.2s forwards;
         }
 
-        /* HEADER */
-        .header { 
-            display: flex; 
+        .header-badge:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(2px);
+        }
+
+        .logo-icon {
+            color: var(--brand-green);
+            font-size: 1.1rem;
+            filter: drop-shadow(0 0 5px rgba(67, 176, 42, 0.5));
+        }
+
+        .logo-text-group {
+            display: flex; flex-direction: column;
             align-items: flex-start;
-            /* Static Fade */
-            opacity: 0;
-            animation: simpleFadeIn 1s ease-out 0.2s forwards;
+            line-height: 1;
         }
 
-        .dept-info { 
-            border-left: 3px solid var(--brand-green); 
-            padding-left: 15px;
-        }
-
-        .dept-title { 
-            font-size: 0.75rem; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            opacity: 0.9; 
-            margin-bottom: 5px; 
-            display: block; 
-            font-weight: 600;
-        }
-
-        .dept-name { 
-            font-size: 1.1rem; 
-            font-weight: 700;
-        }
-
-        /* HERO TEXT AREA */
-        .hero-section {
-            margin-top: auto;
-            margin-bottom: 40px; 
-            max-width: 800px;
-        }
-
-        /* H1 Styling - REMOVED JS TYPING FOR SMOOTHNESS */
-        h1 {
+        .logo-brand {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(3.8rem, 11vw, 4.5rem);
-            line-height: 1.2;
-            margin-bottom: 60px; 
-            color: #ffffff;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            
-            /* Simple Slide Up Animation */
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s ease-out 0.4s forwards;
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            letter-spacing: 0.5px;
+            color: #fff;
         }
 
-        @keyframes fadeInUp {
+        .logo-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.55rem; 
+            font-weight: 500;
+            letter-spacing: 2px; 
+            opacity: 0.7;
+            margin-top: 3px;
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* SUBTITLE & GREEN ANIMATION */
-        .subtitle {
-            font-size: 1.1rem; 
-            font-weight: 300; 
-            display: flex; 
-            align-items: center; 
-            gap: 15px;
-            
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s ease-out 0.6s forwards;
-        }
-        
-        /* The Green Line Animation */
-        .subtitle::before { 
-            content:''; 
-            width: 40px; 
-            height: 3px; 
-            background: var(--brand-green); 
-            border-radius: 2px;
-            
-            /* Enhanced Neon Pulse Animation */
-            box-shadow: 0 0 5px var(--brand-green);
-            animation: greenPulse 2.5s infinite alternate;
-        }
-
-        @keyframes greenPulse {
-            0% {
-                width: 40px;
-                opacity: 0.7;
-                box-shadow: 0 0 5px var(--brand-green);
-            }
-            100% {
-                width: 55px; /* Slight expansion */
-                opacity: 1;
-                box-shadow: 0 0 15px var(--brand-green), 0 0 25px var(--brand-green);
-            }
-        }
-
-        /* Particles */
-        .particles {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2;
-        }
-
-        .particle {
-            position: absolute; width: 2px; height: 2px; background: rgba(255, 255, 255, 0.5);
-            border-radius: 50%; animation: float 15s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh); opacity: 0; }
-            10% { opacity: 1; }
-            100% { transform: translateY(-100px); opacity: 0; }
-        }
-
-        /* --- BOTTOM AREA --- */
-        .bottom-area {
-            display: flex; justify-content: center; align-items: center;
+        /* --- CENTER CONTENT --- */
+        .center-content {
+            position: relative;
+            margin-top: 15vh; 
             margin-bottom: 20px;
-            
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s ease-out 0.8s forwards;
         }
 
-        /* ROUND BUTTON */
-        .round-btn {
-            position: relative; width: 80px; height: 80px; border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px); color: white; font-size: 1.5rem;
-            cursor: pointer; display: flex; justify-content: center; align-items: center;
-            transition: all 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            -webkit-tap-highlight-color: transparent;
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.5rem, 12vw, 7rem);
+            line-height: 1;
+            color: #fff;
+            text-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            margin-bottom: 10px;
+            opacity: 0; transform: translateY(30px);
+            animation: textReveal 1.2s var(--ease-out) 0.5s forwards;
         }
+
+        .subtitle {
+            font-size: 1rem; font-weight: 300; letter-spacing: 3px;
+            text-transform: uppercase; color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 50px;
+            opacity: 0; transform: translateY(20px);
+            animation: textReveal 1.2s var(--ease-out) 0.7s forwards;
+        }
+
+        /* --- 3. BUTTON --- */
+        .btn-container {
+            position: relative;
+            width: 100px; height: 100px;
+            margin: 0 auto;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; transform: translateY(20px);
+            animation: textReveal 1.2s var(--ease-out) 0.9s forwards;
+        }
+
+        .round-btn {
+            position: relative;
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            z-index: 2;
+        }
+
+        .round-btn i { transition: transform 0.3s ease; }
 
         .round-btn:hover {
-            transform: scale(1.05); border-color: var(--brand-green);
-            background: rgba(67, 176, 42, 0.15);
-            box-shadow: 0 0 20px rgba(67, 176, 42, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+            border-color: rgba(255,255,255,0.6);
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
         }
-        .round-btn:active { transform: scale(0.95); }
 
-        /* PULSE RINGS */
+        .round-btn:hover i { transform: translateX(3px); }
+
+        /* Ring Animation */
+        .round-btn.loading i { opacity: 0; }
+        
+        .round-btn.loading::before,
+        .round-btn.loading::after {
+            content: ''; position: absolute; inset: -3px; border-radius: 50%;
+            background: var(--ring-colors);
+            animation: spinRing 0.8s linear infinite; z-index: -1;
+        }
+
+        .round-btn.loading::after { filter: blur(15px); opacity: 0.9; }
+
+        .round-btn.loading .btn-mask {
+            position: absolute; inset: 3px; background: #000; border-radius: 50%; z-index: 0;
+        }
+
+        @keyframes spinRing {
+            0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); }
+        }
+
+        /* Pulse */
         .pulse-ring {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 100%; height: 100%; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4);
-            animation: ripple 2s infinite; z-index: -1; pointer-events: none;
+            width: 100%; height: 100%; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3);
+            animation: ripple 2.5s infinite; z-index: 1; pointer-events: none;
         }
-        .pulse-ring:nth-child(2) { animation-delay: 1s; }
+        .pulse-ring:nth-child(2) { animation-delay: 0.8s; }
+        .round-btn.loading ~ .pulse-ring { display: none; }
 
         @keyframes ripple {
-            0% { width: 100%; height: 100%; opacity: 0.8; border-width: 2px; }
-            100% { width: 220%; height: 220%; opacity: 0; border-width: 0px; }
+            0% { width: 80px; height: 80px; opacity: 0.6; border-width: 1px; }
+            100% { width: 200px; height: 200px; opacity: 0; border-width: 0px; }
         }
 
-        /* LOADING STATE */
-        .round-btn.loading .pulse-ring { display: none; }
-        .round-btn.loading i { opacity: 0; }
-        .round-btn.loading::after {
-            content: ''; position: absolute; inset: -4px; border-radius: 50%;
-            border: 4px solid transparent; border-top-color: #43B02A; border-right-color: #EA4335; 
-            border-bottom-color: #FBBC05; border-left-color: #4285F4; animation: spinRainbow 0.8s linear infinite;
-        }
-        @keyframes spinRainbow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* --- FOOTER --- */
+        /* --- 4. FOOTER --- */
         .footer {
-            text-align: center;
-            width: 100%;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 1s forwards;
+            position: absolute; bottom: 30px;
+            width: 100%; text-align: center;
+            opacity: 0; animation: textReveal 1.2s var(--ease-out) 1.2s forwards;
         }
 
         .footer p {
-            margin: 2px 0;
-            font-size: 0.65rem;
-            letter-spacing: 0.5px;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 300;
+            font-size: 0.65rem; color: rgba(255,255,255,0.4);
+            letter-spacing: 1px; line-height: 1.6;
         }
 
-        /* APP IFRAME */
-        .app-iframe {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
-            background: #fff; z-index: 100; transform: translate3d(0, 100%, 0);
-            transition: transform 0.5s cubic-bezier(0.8, 0, 0.2, 1); will-change: transform;
+        /* --- 5. APP VIEW --- */
+        .app-view {
+            position: fixed; inset: 0; background: #fff; z-index: 100;
+            transform: translateY(100%); transition: transform 0.8s var(--ease-out);
         }
-        .app-iframe.active { transform: translate3d(0, 0, 0); }
-        iframe { width: 100%; height: 100%; border: none; display: block; opacity: 0; transition: opacity 0.6s ease-in; }
-        iframe.loaded { opacity: 1; }
+        .app-view.active { transform: translateY(0); }
+        iframe { width: 100%; height: 100%; border: none; }
 
-        /* --- MOBILE MEDIA QUERIES --- */
-        @media (max-width: 380px) {
-            h1 { font-size: 2.8rem; margin-bottom: 25px; }
-            .hero-section { margin-bottom: 30px; }
-            .dept-name { font-size: 1rem; }
-            .subtitle { font-size: 0.95rem; }
-        }
-        @media (max-height: 700px) {
-            .hero-section { margin-bottom: 20px; }
-            h1 { font-size: 2.5rem; }
+        @keyframes textReveal { to { opacity: 1; transform: translateY(0); } }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            .header-badge { top: 25px; left: 25px; padding: 8px 16px; }
+            .logo-brand { font-size: 0.8rem; }
+            .logo-sub { font-size: 0.5rem; }
+            .center-content { margin-top: 10vh; }
+            h1 { font-size: 3.5rem; margin-bottom: 5px; }
+            .subtitle { font-size: 0.85rem; margin-bottom: 40px; }
+            .footer { bottom: 25px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-layer"></div>
-    <div class="overlay"></div>
-    <div class="particles" id="particles"></div>
+    <div class="bg-layer" id="bg"></div>
+    <div class="vignette"></div>
 
-    <div class="ui-container" id="ui-main">
-        <header class="header">
-            <div class="dept-info">
-                <span class="dept-title">Shwari Point of Sales</span>
-                <span class="dept-name">Internal Portal</span>
+    <div class="ui-wrapper" id="ui">
+        
+        <div class="header-badge">
+            <i class="fas fa-layer-group logo-icon"></i>
+            <div class="logo-text-group">
+                <span class="logo-brand">SHWARI MOVERS AND CLEANERS LTD</span>
+                <span class="logo-sub">Point of sales</span>
             </div>
-        </header>
-
-        <div class="hero-section">
-            <h1 id="hero-title">
-                Sales Vision<br>Booking Action
-            </h1>
-            
-            <div class="subtitle">Building a trusted Sales Network</div>
         </div>
 
-        <div>
-            <div class="bottom-area">
-                <button class="round-btn" onclick="startLoading(this)" aria-label="Enter Portal">
-                    <div class="pulse-ring"></div>
-                    <div class="pulse-ring"></div>
-                    <i class="fas fa-arrow-right"></i>
+        <div class="center-content">
+            <h1>Sales Vision</h1>
+            <div class="subtitle">Building a Trusted Sales Network</div>
+            
+            <div class="btn-container">
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring"></div>
+                <button class="round-btn" onclick="enterApp()" aria-label="Enter System">
+                    <div class="btn-mask"></div>
+                    <i class="fas fa-arrow-right" style="position: relative; z-index: 5;"></i>
                 </button>
             </div>
-
-            <footer class="footer">
-                <p>Property of Shwari Movers and Cleaners Ltd</p>
-                <p>All rights reserved &copy; 2026</p>
-            </footer>
         </div>
+
+        <footer class="footer">
+            <p>Property of Shwari Movers and Cleaners Ltd<br>All rights reserved &copy; 2026</p>
+        </footer>
     </div>
 
-    <div class="app-iframe" id="app-view">
+    <div class="app-view" id="app">
         <iframe 
-            loading="eager" 
-            onload="this.classList.add('loaded')" 
-            src="https://script.google.com/macros/s/AKfycbwH5wUXighD6RtgK1tmjIDg-xf4--PMW7w40ioC0NVFhe2_NeXz8V5wTVZDsPeQa8Hw/exec">
+            loading="eager"
+            id="app-frame"
+            src="about:blank">
         </iframe>
     </div>
 
     <script>
-        // BACKGROUND PARTICLES (Lightweight JS)
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 20;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.width = `${Math.random() * 2 + 1}px`;
-                particle.style.height = particle.style.width;
-                particle.style.animationDelay = `${Math.random() * 15}s`;
-                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
-                particle.style.opacity = Math.random() * 0.3 + 0.1;
-                particlesContainer.appendChild(particle);
-            }
-        }
+        window.addEventListener('load', () => {
+            document.getElementById('bg').classList.add('loaded');
+            const url = "https://script.google.com/macros/s/AKfycbwH5wUXighD6RtgK1tmjIDg-xf4--PMW7w40ioC0NVFhe2_NeXz8V5wTVZDsPeQa8Hw/exec";
+            document.getElementById('app-frame').src = url;
+        });
 
-        // Start loading animation
-        function startLoading(btnElement) {
-            const ui = document.getElementById('ui-main');
-            const app = document.getElementById('app-view');
+        function enterApp() {
+            const btn = document.querySelector('.round-btn');
+            const ui = document.getElementById('ui');
+            const bg = document.getElementById('bg');
+            const app = document.getElementById('app');
 
-            // Fade out UI Elements
-            const elements = document.querySelectorAll('.header, .hero-section, .bottom-area, .footer');
-            elements.forEach(el => {
-                el.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-                el.style.transform = 'translateY(-20px)';
-                el.style.opacity = '0';
-            });
-
-            btnElement.classList.add('loading');
-
-            const bgLayer = document.querySelector('.bg-layer');
-            bgLayer.style.transition = 'all 1s ease-in-out';
-            bgLayer.style.filter = 'brightness(0.4) blur(8px)';
+            btn.classList.add('loading');
 
             setTimeout(() => {
-                app.classList.add('active');
-            }, 1200);
-        }
+                ui.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+                ui.style.opacity = "0";
+                ui.style.transform = "scale(0.95)";
 
-        window.addEventListener('load', () => {
-            createParticles();
-        });
+                bg.style.transition = "filter 0.8s ease";
+                bg.style.filter = "brightness(0.05)";
+
+                setTimeout(() => {
+                    app.classList.add('active');
+                }, 500);
+            }, 1200); 
+        }
     </script>
 </body>
 </html>
