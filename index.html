@@ -15,7 +15,10 @@
     
     <style>
         :root {
-            --brand-green: #43B02A;
+            /* CHANGED: From Green to Purple */
+            --brand-purple: #A960EE;
+            /* RGB values used for transparent rgba() colors */
+            --brand-purple-rgb: 169, 96, 238; 
         }
 
         body, html {
@@ -31,7 +34,7 @@
         /* --- BACKGROUND --- */
         .bg-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://img.freepik.com/premium-photo/business-woman-computer-with-portrait-night-creative-deadline-project-planning-confidence-professional-employee-technology-office-software-test-management-efficiency_590464-331949.jpg?semt=ais_hybrid&w=740&q=80');
+            background-image: url('https://images.pexels.com/photos/34610771/pexels-photo-34610771/free-photo-of-confident-female-entrepreneur-in-modern-workspace.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500');
             background-size: cover;
             background-position: center;
             z-index: 0;
@@ -47,7 +50,8 @@
 
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.1) 100%);
+            /* Optional: Added a very slight purple tint to the bottom of the gradient */
+            background: linear-gradient(to top, rgba(20, 0, 40, 0.9) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.1) 100%);
             z-index: 1;
             pointer-events: none;
         }
@@ -60,8 +64,6 @@
             justify-content: space-between;
             padding: max(30px, env(safe-area-inset-top)) 25px max(20px, env(safe-area-inset-bottom)) 25px;
             box-sizing: border-box;
-            
-            /* Simple Fade In for Container */
             opacity: 0;
             animation: simpleFadeIn 1s ease-out forwards;
         }
@@ -74,29 +76,23 @@
         .header { 
             display: flex; 
             align-items: flex-start;
-            /* Static Fade */
             opacity: 0;
             animation: simpleFadeIn 1s ease-out 0.2s forwards;
         }
 
         .dept-info { 
-            border-left: 3px solid var(--brand-green); 
+            /* CHANGED: Use purple variable */
+            border-left: 3px solid var(--brand-purple); 
             padding-left: 15px;
         }
 
         .dept-title { 
-            font-size: 0.75rem; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            opacity: 0.9; 
-            margin-bottom: 5px; 
-            display: block; 
-            font-weight: 600;
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; 
+            opacity: 0.9; margin-bottom: 5px; display: block; font-weight: 600;
         }
 
         .dept-name { 
-            font-size: 1.1rem; 
-            font-weight: 700;
+            font-size: 1.1rem; font-weight: 700;
         }
 
         /* HERO TEXT AREA */
@@ -106,7 +102,6 @@
             max-width: 800px;
         }
 
-        /* H1 Styling - REMOVED JS TYPING FOR SMOOTHNESS */
         h1 {
             font-family: 'Playfair Display', serif;
             font-size: clamp(3.8rem, 11vw, 4.5rem);
@@ -114,8 +109,6 @@
             margin-bottom: 60px; 
             color: #ffffff;
             text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            
-            /* Simple Slide Up Animation */
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 1s ease-out 0.4s forwards;
@@ -125,50 +118,38 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* SUBTITLE & GREEN ANIMATION */
+        /* SUBTITLE & ANIMATION */
         .subtitle {
-            font-size: 1.1rem; 
-            font-weight: 300; 
-            display: flex; 
-            align-items: center; 
-            gap: 15px;
-            
-            opacity: 0;
-            transform: translateY(20px);
+            font-size: 1.1rem; font-weight: 300; display: flex; align-items: center; gap: 15px;
+            opacity: 0; transform: translateY(20px);
             animation: fadeInUp 1s ease-out 0.6s forwards;
         }
         
-        /* The Green Line Animation */
+        /* The Purple Line Animation */
         .subtitle::before { 
-            content:''; 
-            width: 40px; 
-            height: 3px; 
-            background: var(--brand-green); 
+            content:''; width: 40px; height: 3px; 
+            /* CHANGED: Use purple variable */
+            background: var(--brand-purple); 
             border-radius: 2px;
-            
-            /* Enhanced Neon Pulse Animation */
-            box-shadow: 0 0 5px var(--brand-green);
-            animation: greenPulse 2.5s infinite alternate;
+            /* CHANGED: Use purple variable and renamed animation */
+            box-shadow: 0 0 5px var(--brand-purple);
+            animation: purplePulse 2.5s infinite alternate;
         }
 
-        @keyframes greenPulse {
+        /* CHANGED: Renamed to purplePulse and updated colors */
+        @keyframes purplePulse {
             0% {
-                width: 40px;
-                opacity: 0.7;
-                box-shadow: 0 0 5px var(--brand-green);
+                width: 40px; opacity: 0.7;
+                box-shadow: 0 0 5px var(--brand-purple);
             }
             100% {
-                width: 55px; /* Slight expansion */
-                opacity: 1;
-                box-shadow: 0 0 15px var(--brand-green), 0 0 25px var(--brand-green);
+                width: 55px; opacity: 1;
+                box-shadow: 0 0 15px var(--brand-purple), 0 0 25px var(--brand-purple);
             }
         }
 
         /* Particles */
-        .particles {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2;
-        }
-
+        .particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
         .particle {
             position: absolute; width: 2px; height: 2px; background: rgba(255, 255, 255, 0.5);
             border-radius: 50%; animation: float 15s infinite linear;
@@ -184,13 +165,11 @@
         .bottom-area {
             display: flex; justify-content: center; align-items: center;
             margin-bottom: 20px;
-            
-            opacity: 0;
-            transform: translateY(20px);
+            opacity: 0; transform: translateY(20px);
             animation: fadeInUp 1s ease-out 0.8s forwards;
         }
 
-        /* ROUND BUTTON */
+        /* ROUND BUTTON - ENHANCED ANIMATION */
         .round-btn {
             position: relative; width: 80px; height: 80px; border-radius: 50%;
             border: 1px solid rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.1);
@@ -198,14 +177,41 @@
             cursor: pointer; display: flex; justify-content: center; align-items: center;
             transition: all 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             -webkit-tap-highlight-color: transparent;
+            /* Added overflow hidden for the shine effect */
+            overflow: hidden;
+        }
+
+        /* New: Shine sweep effect on hover */
+        .round-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            transition: all 0.6s;
+            z-index: 1;
+        }
+
+        .round-btn:hover::before {
+            left: 100%;
         }
 
         .round-btn:hover {
-            transform: scale(1.05); border-color: var(--brand-green);
-            background: rgba(67, 176, 42, 0.15);
-            box-shadow: 0 0 20px rgba(67, 176, 42, 0.3);
+            transform: scale(1.05); 
+            /* CHANGED: Updated hover colors to purple rgba equivalents */
+            border-color: var(--brand-purple);
+            background: rgba(var(--brand-purple-rgb), 0.15);
+            box-shadow: 0 0 20px rgba(var(--brand-purple-rgb), 0.4);
         }
         .round-btn:active { transform: scale(0.95); }
+        
+        /* Ensure icon stays on top of shine */
+        .round-btn i { z-index: 2; }
 
         /* PULSE RINGS */
         .pulse-ring {
@@ -220,30 +226,37 @@
             100% { width: 220%; height: 220%; opacity: 0; border-width: 0px; }
         }
 
-        /* LOADING STATE */
+        /* ENHANCED LOADING STATE */
         .round-btn.loading .pulse-ring { display: none; }
-        .round-btn.loading i { opacity: 0; }
+        .round-btn.loading i { opacity: 0; transition: opacity 0.2s; }
+        
+        /* Changed: Thicker, glowing purple spinner */
         .round-btn.loading::after {
             content: ''; position: absolute; inset: -4px; border-radius: 50%;
-            border: 4px solid transparent; border-top-color: #43B02A; border-right-color: #EA4335; 
-            border-bottom-color: #FBBC05; border-left-color: #4285F4; animation: spinRainbow 0.8s linear infinite;
+            border: 4px solid transparent; 
+            /* Only top and left border for a sweeping effect */
+            border-top-color: var(--brand-purple); 
+            border-left-color: rgba(var(--brand-purple-rgb), 0.5);
+            /* Add a strong purple glow */
+            filter: drop-shadow(0 0 8px var(--brand-purple));
+            animation: spinEnhanced 0.8s linear infinite;
+            z-index: 3;
         }
-        @keyframes spinRainbow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        @keyframes spinEnhanced { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
 
         /* --- FOOTER --- */
         .footer {
-            text-align: center;
-            width: 100%;
-            opacity: 0;
+            text-align: center; width: 100%; opacity: 0;
             animation: fadeInUp 1s ease-out 1s forwards;
         }
 
         .footer p {
-            margin: 2px 0;
-            font-size: 0.65rem;
-            letter-spacing: 0.5px;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 300;
+            margin: 2px 0; font-size: 0.65rem; letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.6); font-weight: 300;
         }
 
         /* APP IFRAME */
