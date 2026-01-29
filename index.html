@@ -17,19 +17,15 @@
     
     <style>
         :root {
-            /* Theme Variables */
             --brand-purple: #A960EE;
             --brand-purple-rgb: 169, 96, 238;
             --text-light: #ffffff;
             --bg-dark: #000000;
             --glass-border: rgba(255, 255, 255, 0.3);
             --glass-bg: rgba(255, 255, 255, 0.1);
-            
-            /* Animation Timings */
             --anim-ease: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* --- RESET & BASE --- */
         *, *::before, *::after { box-sizing: border-box; }
         
         body, html {
@@ -42,20 +38,16 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- 1. KEN BURNS BACKGROUND --- */
+        /* --- KEN BURNS BACKGROUND --- */
         .bg-layer {
-            position: fixed; inset: -5%; /* Oversize to allow panning */
+            position: fixed; inset: -5%;
             width: 110%; height: 110%;
             background-image: url('https://www.costar.com/_next/image?url=https%3A%2F%2Fcostar.brightspotcdn.com%2Fdims4%2Fdefault%2Fd84ee63%2F2147483647%2Fstrip%2Ftrue%2Fcrop%2F2048x1365%2B0%2B0%2Fresize%2F2048x1365!%2Fquality%2F100%2F%3Furl%3Dhttp%253A%252F%252Fcostar-brightspot.s3.us-east-1.amazonaws.com%252FGettyImages-2224659879.jpg&w=3840&q=75');
             background-size: cover;
-            
-            /* EDITED: Changed from 'center center' to '15% center' to push subject to the right */
-            background-position: 35% center; 
-            
+            background-position: 40% center; 
             z-index: 0;
             filter: brightness(0.85) contrast(1.1);
             will-change: transform;
-            /* Slow pan and zoom */
             animation: kenBurns 40s ease-in-out infinite alternate;
         }
 
@@ -85,7 +77,6 @@
             animation: simpleFadeIn 1s ease-out forwards;
         }
 
-        /* --- HEADER --- */
         .header { 
             display: flex; align-items: flex-start;
             opacity: 0;
@@ -122,7 +113,6 @@
             margin-top: auto; margin-bottom: 40px; max-width: 800px;
         }
 
-        /* --- 2. STAGGERED ENTRANCE --- */
         h1 {
             font-family: 'Playfair Display', serif;
             font-size: clamp(3.8rem, 11vw, 4.5rem);
@@ -131,13 +121,10 @@
             color: #ffffff;
         }
 
-        /* Split words for individual animation */
         h1 span {
-            display: block; /* Forces line break naturally if needed, or use <br> */
+            display: block;
             opacity: 0;
             transform: translateY(30px);
-            
-            /* Gradient Text Logic applied to spans */
             background: linear-gradient(110deg, #ffffff 30%, #e0c3fc 45%, #ffffff 60%);
             background-size: 200% auto;
             -webkit-background-clip: text;
@@ -145,14 +132,13 @@
             text-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        /* Staggered Delays */
         .word-1 { animation: fadeInUp 0.8s ease-out 0.4s forwards, shimmer 6s infinite linear; }
         .word-2 { animation: fadeInUp 0.8s ease-out 0.6s forwards, shimmer 6s infinite linear; }
 
         .subtitle {
             font-size: 1.1rem; font-weight: 300; display: flex; align-items: center; gap: 15px;
             opacity: 0; transform: translateY(20px);
-            animation: fadeInUp 1s ease-out 0.9s forwards; /* Delayed after h1 */
+            animation: fadeInUp 1s ease-out 0.9s forwards;
         }
         
         .subtitle::before { 
@@ -182,7 +168,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             overflow: hidden;
             animation: btn-breathe 3s infinite ease-in-out;
-            z-index: 20; /* Keep above ripples initially */
+            z-index: 20;
         }
 
         .round-btn:hover {
@@ -194,13 +180,10 @@
         }
         
         .round-btn:active { transform: scale(0.95); }
-
         .round-btn i { z-index: 2; animation: arrow-nudge 1.5s infinite ease-in-out; }
 
-        /* Loading State for Button */
         .round-btn.loading { animation: none; transform: scale(1); pointer-events: none; border-color: transparent; background: transparent; box-shadow: none; }
         .round-btn.loading i { opacity: 0; }
-        .round-btn.loading .pulse-ring { opacity: 0; }
 
         .pulse-ring {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -226,16 +209,15 @@
             border-radius: 50%; animation: float 15s infinite linear;
         }
 
-        /* --- 3. RIPPLE TRANSITION ELEMENT --- */
+        /* --- RIPPLE TRANSITION --- */
         .ripple-overlay {
             position: fixed;
             border-radius: 50%;
-            background: #ffffff; /* Matches iframe background */
+            background: #ffffff;
             transform: translate(-50%, -50%) scale(0);
             pointer-events: none;
             z-index: 50;
             will-change: transform;
-            /* Transition speed */
             transition: transform 0.8s cubic-bezier(0.55, 0.055, 0.675, 0.19);
         }
         
@@ -243,7 +225,7 @@
             transform: translate(-50%, -50%) scale(1);
         }
 
-        /* --- IFRAME APPLICATION --- */
+        /* --- UPDATED IFRAME CONTAINER --- */
         .app-iframe {
             position: fixed; inset: 0;
             background: #fff; z-index: 100;
@@ -260,7 +242,7 @@
         }
         iframe.loaded { opacity: 1; }
 
-        /* --- ANIMATIONS KEYFRAMES --- */
+        /* --- KEYFRAMES --- */
         @keyframes simpleFadeIn { from{ opacity:0; } to{ opacity:1; } }
         @keyframes growLine { to { transform: scaleY(1); } }
         @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
@@ -272,7 +254,6 @@
         @keyframes arrow-nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
         @keyframes ripple { 0% { width: 100%; height: 100%; opacity: 0.8; border-width: 2px; } 100% { width: 220%; height: 220%; opacity: 0; border-width: 0px; } }
 
-        /* --- MEDIA QUERIES --- */
         @media (max-width: 380px) {
             h1 { font-size: 2.8rem; margin-bottom: 25px; }
             .hero-section { margin-bottom: 30px; }
@@ -286,7 +267,6 @@
     <div class="bg-layer" aria-hidden="true"></div>
     <div class="overlay" aria-hidden="true"></div>
     <div class="particles" id="particles" aria-hidden="true"></div>
-    
     <div class="ripple-overlay" id="rippleEffect"></div>
 
     <main class="ui-container" id="ui-main">
@@ -326,6 +306,8 @@
             id="google-script-frame"
             title="Sales Booking System"
             loading="eager" 
+            allow="clipboard-write; share; camera; microphone"
+            sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-modals allow-downloads allow-popups-to-escape-sandbox"
             src="https://script.google.com/macros/s/AKfycbwbvNeagzMhn1TKVHHUR4xu3fdTARtMe7P482dnKtQR4lFVfGIQzFm_teDNzUC4wSzO/exec">
         </iframe>
     </div>
@@ -340,7 +322,6 @@
             const container = document.getElementById('particles');
             const particleCount = 20;
             const fragment = document.createDocumentFragment();
-
             for (let i = 0; i < particleCount; i++) {
                 const p = document.createElement('div');
                 p.classList.add('particle');
@@ -360,51 +341,38 @@
             const appWrapper = document.getElementById('app-view');
             const iframe = document.getElementById('google-script-frame');
             
-            // Handle Iframe Load
             iframe.onload = function() {
                 this.classList.add('loaded');
             };
 
-            // Handle Button Click with Ripple
             btn.addEventListener('click', (e) => {
                 const ui = document.getElementById('ui-main');
-                
-                // 1. Get Button Coordinates
                 const rect = btn.getBoundingClientRect();
                 const x = rect.left + rect.width / 2;
                 const y = rect.top + rect.height / 2;
 
-                // 2. Position Ripple at center of button
-                // Calculate max distance to corner to ensure it covers screen
                 const w = window.innerWidth;
                 const h = window.innerHeight;
                 const maxDist = Math.hypot(Math.max(x, w - x), Math.max(y, h - y));
-                const size = maxDist * 2.2; // 2.2x to be safe
+                const size = maxDist * 2.2;
 
                 ripple.style.width = size + 'px';
                 ripple.style.height = size + 'px';
                 ripple.style.left = x + 'px';
                 ripple.style.top = y + 'px';
 
-                // 3. UI Reaction
                 btn.classList.add('loading');
                 
-                // 4. Trigger Ripple Expansion
-                // We use requestAnimationFrame to ensure the style set above applies first
                 requestAnimationFrame(() => {
                     ripple.classList.add('expand');
                 });
 
-                // 5. Switch to App (Match transition timing of ripple)
                 setTimeout(() => {
                     appWrapper.classList.add('active');
                     appWrapper.setAttribute('aria-hidden', 'false');
-                    ui.style.opacity = '0'; // Hide underlying UI
-                    
-                    // Optional: Reset ripple after transition to save memory (not strictly necessary but clean)
+                    ui.style.opacity = '0'; 
                     setTimeout(() => { ripple.style.opacity = '0'; }, 500);
-                    
-                }, 700); // 700ms matches close to the CSS transition
+                }, 700);
             });
         }
     </script>
