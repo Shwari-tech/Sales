@@ -30,9 +30,9 @@
         
         body, html {
             margin: 0; padding: 0;
-            height: 100dvh; /* Dynamic Viewport Height for full screen on mobile */
+            height: 100dvh;
             width: 100%;
-            overflow: hidden; /* Prevents scrolling */
+            overflow: hidden;
             background: var(--bg-dark);
             font-family: 'Inter', sans-serif;
             color: var(--text-light);
@@ -67,7 +67,6 @@
             position: relative; z-index: 10; 
             width: 100%; height: 100dvh;
             display: flex; flex-direction: column; 
-            /* Changed to safe-area-inset for notch support */
             padding: max(15px, env(safe-area-inset-top)) 25px max(15px, env(safe-area-inset-bottom)) 25px;
             opacity: 0; animation: simpleFadeIn 1s ease-out forwards;
         }
@@ -77,7 +76,6 @@
             display: flex;
             justify-content: flex-end;
             gap: 15px;
-            /* Flex-shrink prevents it from crushing the header if space is tight */
             flex-shrink: 0; 
             margin-bottom: 10px;
             opacity: 0;
@@ -101,7 +99,7 @@
         .header { 
             display: flex; justify-content: space-between; align-items: flex-start; 
             opacity: 0; animation: simpleFadeIn 1s ease-out 0.2s forwards;
-            flex-shrink: 0; /* Prevents shrinking */
+            flex-shrink: 0;
         }
 
         .dept-info { position: relative; padding-left: 15px; }
@@ -117,18 +115,16 @@
 
         /* --- HERO --- */
         .hero-section { 
-            /* Changed from margin-top: auto to flex properties to prevent overlap */
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Centers content vertically in available space */
-            min-height: 0; /* Allows shrinking */
+            justify-content: center;
+            min-height: 0;
             padding: 20px 0;
         }
 
         h1 { 
             font-family: 'Playfair Display', serif; 
-            /* Adjusted scale: Min 2.5rem prevents massive text on small screens */
             font-size: clamp(2.5rem, 10vw, 4.5rem); 
             line-height: 1.3; 
             margin: 0 0 15px 0; 
@@ -147,12 +143,70 @@
             font-weight: 300; display: flex; align-items: center; gap: 15px; 
             opacity: 0; transform: translateY(20px); 
             animation: fadeInUp 1s ease-out 0.9s forwards; 
+            margin-bottom: 25px;
         }
         .subtitle::before { content:''; width: 40px; height: 3px; background: var(--brand-purple); border-radius: 2px; animation: purplePulse 2.5s infinite alternate; }
 
+        /* --- REFINED QUOTE SECTION (UPDATED) --- */
+        .quote-container {
+            max-width: 500px;
+            padding: 15px 25px;
+            /* Minimalist Gradient Background */
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+            /* Glowing Accent Line */
+            border-left: 2px solid var(--brand-purple);
+            box-shadow: -5px 0 20px -5px rgba(169, 96, 238, 0.6);
+            /* Subtle Blur */
+            backdrop-filter: blur(5px);
+            border-radius: 0 8px 8px 0;
+            
+            /* Entry Animation */
+            opacity: 0; transform: translateY(20px);
+            animation: fadeInUp 1s ease-out 1.1s forwards;
+            
+            min-height: 90px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .quote-text {
+            font-style: italic;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Legibility boost */
+            
+            /* Fade Slide Transition properties */
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .quote-author {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.7);
+            
+            /* Fade Slide Transition properties */
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition-delay: 0.1s; /* Slight staggered effect */
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Transition States */
+        .hide-slide {
+            opacity: 0;
+            transform: translateY(15px); /* Slide down while fading */
+        }
+
         /* --- BUTTONS & FOOTER --- */
         .bottom-group {
-            /* Wrapper to handle bottom area together */
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
@@ -162,7 +216,7 @@
         .bottom-area { 
             display: flex; justify-content: center; 
             margin-bottom: 20px; 
-            opacity: 0; animation: fadeInUp 1s ease-out 1.1s forwards; 
+            opacity: 0; animation: fadeInUp 1s ease-out 1.3s forwards; 
         }
 
         .round-btn {
@@ -174,7 +228,7 @@
         }
         .round-btn:hover { transform: scale(1.1); border-color: var(--brand-purple); box-shadow: 0 0 30px rgba(var(--brand-purple-rgb), 0.6); }
 
-        .footer { text-align: center; opacity: 0; animation: fadeInUp 1s ease-out 1.3s forwards; }
+        .footer { text-align: center; opacity: 0; animation: fadeInUp 1s ease-out 1.5s forwards; }
         .footer p { margin: 2px 0; font-size: 0.65rem; color: rgba(255, 255, 255, 0.6); }
 
         /* --- RIPPLE & IFRAME --- */
@@ -186,19 +240,14 @@
         iframe { width: 100%; height: 100%; border: none; opacity: 0; transition: 0.6s; }
         iframe.loaded { opacity: 1; }
 
-        /* --- RESPONSIVE ADJUSTMENTS FOR SHORT SCREENS --- */
-        /* Prevents overlap on Landscape Mobile or small windows */
+        /* --- RESPONSIVE ADJUSTMENTS --- */
         @media (max-height: 700px) {
             .ui-container { padding: 10px 25px; }
-            .social-bar { margin-bottom: 5px; }
-            .social-icon { width: 32px; height: 32px; font-size: 0.9rem; }
-            .dept-title { font-size: 0.65rem; }
-            .dept-name { font-size: 0.95rem; }
-            
-            h1 { font-size: clamp(2rem, 8vw, 3rem); margin-bottom: 10px; }
+            .hero-section { padding: 10px 0; }
+            .quote-container { padding: 10px 15px; min-height: 60px; max-width: 100%; }
+            .quote-text { font-size: 0.8rem; }
+            h1 { font-size: clamp(2rem, 8vw, 3rem); margin-bottom: 5px; }
             .round-btn { width: 60px; height: 60px; font-size: 1.2rem; }
-            .bottom-area { margin-bottom: 10px; }
-            .footer p { font-size: 0.55rem; }
         }
 
         /* --- KEYFRAMES --- */
@@ -208,6 +257,7 @@
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes shimmer { to { background-position: -200% center; } }
         @keyframes btn-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes purplePulse { from { opacity: 0.5; width: 30px; } to { opacity: 1; width: 50px; } }
 
     </style>
 </head>
@@ -239,6 +289,11 @@
                 <span class="word-2">Booking Hub</span>
             </h1>
             <div class="subtitle">Building Sales Network</div>
+
+            <div class="quote-container">
+                <div id="quote-box" class="quote-text">"Excellence is not a skill, it’s an attitude."</div>
+                <div id="quote-author" class="quote-author">— Ralph Marston</div>
+            </div>
         </section>
 
         <div class="bottom-group">
@@ -266,20 +321,50 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Particles
             const container = document.getElementById('particles');
             for (let i = 0; i < 20; i++) {
                 const p = document.createElement('div');
-                p.classList.add('particle');
-                p.style.position = 'absolute'; // Fixed missing position
+                p.style.position = 'absolute';
                 p.style.left = `${Math.random() * 100}%`;
                 p.style.top = `${Math.random() * 100}%`;
                 p.style.width = p.style.height = `${Math.random() * 2 + 1}px`;
                 p.style.opacity = Math.random() * 0.5;
-                p.style.background = 'white'; // Added color visibility
-                p.style.borderRadius = '50%'; // Make them round
+                p.style.background = 'white';
+                p.style.borderRadius = '50%';
                 container.appendChild(p);
             }
 
+            // Dynamic Quotes Logic (Updated for Fade-Slide)
+            const quotes = [
+                { text: "Don’t find customers for your products, find products for your customers.", author: "Seth Godin" },
+                { text: "Your most unhappy customers are your greatest source of learning.", author: "Bill Gates" },
+                { text: "Sales are contingent upon the attitude of the salesman, not the prospect.", author: "W. Clement Stone" },
+                { text: "The way to get started is to quit talking and begin doing.", author: "Walt Disney" },
+                { text: "Excellence is not a skill, it’s an attitude.", author: "Ralph Marston" }
+            ];
+
+            let quoteIndex = 0;
+            const quoteEl = document.getElementById('quote-box');
+            const authorEl = document.getElementById('quote-author');
+
+            setInterval(() => {
+                // Trigger slide out
+                quoteEl.classList.add('hide-slide');
+                authorEl.classList.add('hide-slide');
+                
+                setTimeout(() => {
+                    quoteIndex = (quoteIndex + 1) % quotes.length;
+                    quoteEl.textContent = `"${quotes[quoteIndex].text}"`;
+                    authorEl.textContent = `— ${quotes[quoteIndex].author}`;
+                    
+                    // Trigger slide in
+                    quoteEl.classList.remove('hide-slide');
+                    authorEl.classList.remove('hide-slide');
+                }, 800); // Matches the CSS transition duration
+            }, 6000);
+
+            // Transition Logic
             const btn = document.getElementById('enterBtn');
             const ripple = document.getElementById('rippleEffect');
             const appWrapper = document.getElementById('app-view');
