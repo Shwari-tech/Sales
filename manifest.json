@@ -1,8 +1,8 @@
 {
-  "id": "/shwari-finance-portal",
+  "id": "/shwari-Sales-portal",
   "name": "Shwari Mobile",
-  "short_name": "Shwari",
-  "description": "Digital Payroll Certified by Shwari Finance Department .",
+  "short_name": "Sales Hub",
+  "description": "Sales Operational Hub | Point of Sale .",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -19,7 +19,7 @@
       "purpose": "any"
     },
     {
-      "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpxUalu5VVwbs1UNYjhK-3aJ5Uwcy--A1Vlg&s",
+      "src": "https://resources.salesapps.io/wp-content/uploads/2019/01/cropped-pres.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
@@ -49,14 +49,14 @@
   ],
   "screenshots": [
     {
-      "src": "https://cdn.prod.website-files.com/5e4d02fd9692e694f86e0e98/6462b9fc8b1022bf196f08e4_Payroll%20Run%402x.webp",
+      "src": "https://cdn.dribbble.com/userupload/43228312/file/original-024050300d65ead8de6edc3e781e941c.jpg?resize=400x0",
       "sizes": "800x600",
       "type": "image/jpeg",
       "form_factor": "wide",
       "label": "Welcome Back Screen"
     },
     {
-      "src": "https://cdn.prod.website-files.com/5e4d02fd9692e694f86e0e98/6096ae63c96bb36b0225dae0_price_mockup.webp",
+      "src": "https://cdn.dribbble.com/userupload/43228312/file/original-024050300d65ead8de6edc3e781e941c.jpg?resize=400x0",
       "sizes": "600x800",
       "type": "image/jpeg",
       "form_factor": "narrow",
