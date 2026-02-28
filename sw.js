@@ -9,7 +9,7 @@ const CACHE_ASSETS = [
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap',
   'https://cdn-icons-png.flaticon.com/128/1077/1077114.png',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpxUalu5VVwbs1UNYjhK-3aJ5Uwcy--A1Vlg&s' 
+  'https://resources.salesapps.io/wp-content/uploads/2019/01/cropped-pres.png' 
 ];
 
 // 1. Install Event: Cache the application shell
