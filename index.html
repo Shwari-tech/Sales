@@ -29,6 +29,52 @@
         }
 
         *, *::before, *::after { box-sizing: border-box; }
+
+        /* --- MOBILE GATE --- */
+        .desktop-block {
+            display: none;
+            position: fixed; inset: 0; z-index: 9999;
+            background: #000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            gap: 20px;
+        }
+        .desktop-block i {
+            font-size: 4rem;
+            color: var(--brand-purple);
+            animation: floatPhone 2s ease-in-out infinite alternate;
+        }
+        .desktop-block h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; margin: 0;
+            background: linear-gradient(110deg, #ffffff 30%, #d4a5ff 70%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .desktop-block p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.95rem; line-height: 1.6; margin: 0; max-width: 320px;
+        }
+        .desktop-block .qr-hint {
+            margin-top: 10px;
+            padding: 12px 24px;
+            border: 1px solid rgba(169,96,238,0.4);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: var(--brand-purple);
+            letter-spacing: 1px;
+        }
+        @keyframes floatPhone {
+            from { transform: translateY(0) rotate(-5deg); }
+            to   { transform: translateY(-12px) rotate(5deg); }
+        }
+
+        @media (min-width: 768px) {
+            .desktop-block { display: flex; }
+            body > *:not(.desktop-block) { display: none !important; }
+        }
         
         body, html {
             margin: 0; padding: 0;
@@ -298,6 +344,14 @@
     </style>
 </head>
 <body>
+
+    <div class="desktop-block">
+        <i class="fas fa-mobile-alt"></i>
+        <h2>Mobile Only</h2>
+        <p>This portal is designed exclusively for mobile devices. Please open it on your phone.</p>
+        <div class="qr-hint">Open on your smartphone</div>
+        <p style="font-size:0.7rem; color:rgba(255,255,255,0.25); margin-top:10px;">Shwari Movers and Cleaners Ltd &copy; 2026</p>
+    </div>
 
     <div class="bg-layer"></div>
     <div class="overlay"></div>
