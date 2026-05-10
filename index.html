@@ -332,12 +332,6 @@
         </section>
 
         <div class="bottom-group">
-            <div class="bottom-area">
-                <button id="enterBtn" class="round-btn" aria-label="Enter Sales Portal">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-
             <footer class="footer">
                 <p>Property of Shwari Movers and Cleaners Ltd</p>
                 <p>All rights reserved &copy; 2026</p>
@@ -351,7 +345,7 @@
             title="Sales Portal App"
             allow="clipboard-write; share; camera; microphone; web-share"
             sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-modals allow-downloads allow-popups-to-escape-sandbox allow-top-navigation allow-top-navigation-by-user-activation"
-            src="https://script.google.com/macros/s/AKfycbzPrbRYS8ofN4Vxq6E0A7PIjP5Tx1ERfu8zi8DA3-agg_rbv8S6YnGHxbkr5T_3GPTR/exec">
+            src="https://script.google.com/macros/s/AKfycbxjIrgBV0kbtIH7mKJULWruFmGqAGYf80lOu61QWlG-6UaNXc1CQLZrO1ib_omN1Hb7/exec">
         </iframe>
     </div>
 
@@ -445,58 +439,50 @@
             const quoteEl = document.getElementById('quote-box');
             const authorEl = document.getElementById('quote-author');
 
-            quoteEl.textContent = `"${quotes[0].text}"`;
-            authorEl.textContent = `— ${quotes[0].author}`;
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            quoteEl.textContent = `"${randomQuote.text}"`;
+            authorEl.textContent = `— ${randomQuote.author}`;
 
-            setInterval(() => {
-                // Exit Animation (Pop out/Zoom out)
-                quoteEl.classList.add('pop-out-exit');
-                authorEl.classList.add('pop-out-exit');
-                
-                setTimeout(() => {
-                    quoteIndex = (quoteIndex + 1) % quotes.length;
-                    quoteEl.textContent = `"${quotes[quoteIndex].text}"`;
-                    authorEl.textContent = `— ${quotes[quoteIndex].author}`;
-                    
-                    // Entry (Remove Exit class = Pop In to default state)
-                    quoteEl.classList.remove('pop-out-exit');
-                    authorEl.classList.remove('pop-out-exit');
-                }, 600); // Wait for exit animation
-            }, 6000);
-
-            // Transition Logic
-            const btn = document.getElementById('enterBtn');
+            // Auto-open after animations settle
             const ripple = document.getElementById('rippleEffect');
             const appWrapper = document.getElementById('app-view');
             const iframe = document.getElementById('google-script-frame');
             const uiMain = document.getElementById('ui-main');
-            
-            iframe.onload = () => iframe.classList.add('loaded');
 
-            btn.addEventListener('click', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = rect.left + rect.width / 2;
-                const y = rect.top + rect.height / 2;
-                
+            let iframeReady = false;
+            let timerDone = false;
+
+            function tryOpen() {
+                if (!iframeReady || !timerDone) return;
+
+                const x = window.innerWidth / 2;
+                const y = window.innerHeight / 2;
                 const size = Math.max(window.innerWidth, window.innerHeight) * 2.8;
 
                 ripple.style.width = ripple.style.height = size + 'px';
                 ripple.style.left = x + 'px';
                 ripple.style.top = y + 'px';
-                
                 ripple.classList.add('expand');
-                btn.style.opacity = '0';
-                btn.style.pointerEvents = 'none';
 
                 setTimeout(() => {
+                    iframe.classList.add('loaded');
                     appWrapper.classList.add('active');
-                    uiMain.style.display = 'none';
-                }, 700);
-            });
+                    setTimeout(() => { uiMain.style.display = 'none'; }, 400);
+                }, 750);
+            }
+
+            iframe.onload = () => {
+                iframeReady = true;
+                tryOpen();
+            };
+
+            setTimeout(() => {
+                timerDone = true;
+                tryOpen();
+            }, 4000);
         });
     </script>
 </body>
 </html>
-
 
 
