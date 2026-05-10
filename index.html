@@ -254,12 +254,13 @@
 
         /* --- RIPPLE & IFRAME --- */
         .ripple-overlay { 
-            position: fixed; border-radius: 50%; background: #ffffff; 
+            position: fixed; border-radius: 50%; background: #0a001e; 
             transform: translate(-50%, -50%) scale(0); z-index: 50; 
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); 
-            pointer-events: none; will-change: transform;
+            transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.6s ease; 
+            pointer-events: none; will-change: transform; opacity: 1;
         }
         .ripple-overlay.expand { transform: translate(-50%, -50%) scale(1); }
+        .ripple-overlay.fade { opacity: 0; }
 
         .app-iframe { position: fixed; inset: 0; background: #fff; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
         .app-iframe.active { opacity: 1; pointer-events: auto; }
